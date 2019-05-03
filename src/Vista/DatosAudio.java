@@ -41,10 +41,11 @@ public class DatosAudio extends javax.swing.JFrame {
     String CategoriaActualA;
     String DescripcionAudio;
 
-    public DatosAudio() {
+    public DatosAudio(String NombreUsuarioA) {
 
         initComponents();
         this.setLocationRelativeTo(this);
+        NombreUsuarioAudios = NombreUsuarioA;
 
         audiosCuenta = new LinkedList<>();
         categoriasAudios = new LinkedList<>();
@@ -61,24 +62,26 @@ public class DatosAudio extends javax.swing.JFrame {
 
         MostrarCategorias();
         ImagenInicial();
+        MostrarAudiosCuenta();
 
-        guardarAudio.setEnabled(false);
-        eliminarAudio.setEnabled(false);
         formatoActualAudio.setEnabled(false);
+        formatoAudio.setEnabled(false);
+        nombreAudio.setEnabled(false);
         categoriaActualAudio.setEnabled(false);
+        categorias.setEnabled(false);
         TamanoActualAudio.setEnabled(false);
+        TamanoAudio.setEnabled(false);
+        duracionHoras.setEnabled(false);
+        duracionMinutos.setEnabled(false);
+        duracionSegundos.setEnabled(false);
+        descripcionAudio.setEnabled(false);
+        guardarAudio.setEnabled(false);
 
     }
 
-    //********************************************************************
-    public String getNombreUsuarioVideos() {
-        return NombreUsuarioAudios;
+    public DatosAudio() {
+        initComponents();
     }
-
-    public void setNombreUsuarioAudios(String NombreUsuarioAudios) {
-        this.NombreUsuarioAudios = NombreUsuarioAudios;
-    }
-    //********************************************************************
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,7 +118,7 @@ public class DatosAudio extends javax.swing.JFrame {
         categorias = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        MostrarAudio = new javax.swing.JButton();
+        EditarAudio = new javax.swing.JButton();
         guardarAudio = new javax.swing.JButton();
         regresarAudio = new javax.swing.JButton();
         duracionSegundos = new javax.swing.JTextField();
@@ -198,7 +201,7 @@ public class DatosAudio extends javax.swing.JFrame {
         fechaSubidaAudio.setEnabled(false);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("Nombre Video");
+        jLabel5.setText("Nombre Audio");
 
         nombreAudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,7 +231,7 @@ public class DatosAudio extends javax.swing.JFrame {
         formatoAudio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----------------------", "MP4", "WAV" }));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setText("Formato Video");
+        jLabel8.setText("Formato Audio");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Categoría actual");
@@ -240,10 +243,10 @@ public class DatosAudio extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
-        MostrarAudio.setText("Mostrar");
-        MostrarAudio.addActionListener(new java.awt.event.ActionListener() {
+        EditarAudio.setText("Editar");
+        EditarAudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MostrarAudioActionPerformed(evt);
+                EditarAudioActionPerformed(evt);
             }
         });
 
@@ -268,7 +271,7 @@ public class DatosAudio extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MostrarAudio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(EditarAudio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(guardarAudio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(regresarAudio, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
                 .addContainerGap())
@@ -276,7 +279,7 @@ public class DatosAudio extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(MostrarAudio, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EditarAudio, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(guardarAudio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -663,29 +666,6 @@ public class DatosAudio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_guardarAudioActionPerformed
 
-    private void MostrarAudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarAudioActionPerformed
-
-        ControlAudio CIA = new ControlAudio();
-
-        //Devuelve un linkelist donde se encuentra guardado todos los datos del audio de la cuenta
-        audiosCuenta = CIA.TraerAudiosCuenta(NombreUsuarioAudios);
-
-        if (audiosCuenta.isEmpty() == false) {
-
-            MostrarAudios();
-
-            eliminarAudio.setEnabled(true);
-            guardarAudio.setEnabled(true);
-            MostrarAudio.setEnabled(false);
-
-        } else {
-
-            JOptionPane.showMessageDialog(null, "No has agregado contenido de audio a tu cuenta." + "\n\nNota: puedes agregar audio(s) presionando la pestaña" +"\n[Audio] que se encuentra en la ventana principal.");
-
-        }//Fin if
-
-    }//GEN-LAST:event_MostrarAudioActionPerformed
-
     private void duracionHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionHorasActionPerformed
 
     }//GEN-LAST:event_duracionHorasActionPerformed
@@ -747,6 +727,7 @@ public class DatosAudio extends javax.swing.JFrame {
             //Para traer los datos de las imágenes correspondiente
             //a una cuenta. Claramente, cada invocación actualiza los datos
             MostrarAudios();
+            desactivarCampos();
 
         }//Fin if
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -762,9 +743,16 @@ public class DatosAudio extends javax.swing.JFrame {
             //Para traer los datos de las imágenes correspondiente
             //a una cuenta. Claramente, cada invocación actualiza los datos
             MostrarAudios();
+            desactivarCampos();
 
         }//Fin if
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void EditarAudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarAudioActionPerformed
+
+        activarCampos();
+
+    }//GEN-LAST:event_EditarAudioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -868,8 +856,8 @@ public class DatosAudio extends javax.swing.JFrame {
         }//Fin for
 
     }//Fin método
-    
-        public void ImagenInicial() {
+
+    public void ImagenInicial() {
 
         ImageIcon icon = new ImageIcon(AgregarAudio.class.getResource("/Imagenes/IconoAudio.jpg"));
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(LabelAudio.getWidth(), LabelAudio.getHeight(), Image.SCALE_DEFAULT));
@@ -877,9 +865,63 @@ public class DatosAudio extends javax.swing.JFrame {
 
     }//Fin método
 
+    public void MostrarAudiosCuenta() {
+
+        ControlAudio CIA = new ControlAudio();
+
+        //Devuelve un linkelist donde se encuentra guardado todos los datos del audio de la cuenta
+        audiosCuenta = CIA.TraerAudiosCuenta(NombreUsuarioAudios);
+
+        if (audiosCuenta.isEmpty() == false) {
+
+            MostrarAudios();
+
+            eliminarAudio.setEnabled(true);
+            guardarAudio.setEnabled(true);
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "No has agregado contenido de audio a tu cuenta." + "\n\nNota: puedes agregar audio(s) presionando la pestaña" + "\n[Audio] que se encuentra en la ventana principal.");
+
+            guardarAudio.setEnabled(false);
+            eliminarAudio.setEnabled(false);
+
+        }//Fin if
+
+    }//Fin método
+
+    public void activarCampos() {
+
+        formatoAudio.setEnabled(true);
+        nombreAudio.setEnabled(true);
+        categorias.setEnabled(true);
+        TamanoAudio.setEnabled(true);
+        duracionHoras.setEnabled(true);
+        duracionMinutos.setEnabled(true);
+        duracionSegundos.setEnabled(true);
+        descripcionAudio.setEnabled(true);
+        guardarAudio.setEnabled(true);
+
+    }//Fin método
+
+    public void desactivarCampos() {
+
+        formatoAudio.setEnabled(false);
+        nombreAudio.setEnabled(false);
+        categorias.setEnabled(false);
+        TamanoAudio.setEnabled(false);
+        duracionHoras.setEnabled(false);
+        duracionMinutos.setEnabled(false);
+        duracionSegundos.setEnabled(false);
+        descripcionAudio.setEnabled(false);
+        guardarAudio.setEnabled(false);
+
+    }//Fin método
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EditarAudio;
     private javax.swing.JLabel LabelAudio;
-    private javax.swing.JButton MostrarAudio;
     private javax.swing.JTextField TamanoActualAudio;
     private javax.swing.JTextField TamanoAudio;
     private javax.swing.JTextField categoriaActualAudio;

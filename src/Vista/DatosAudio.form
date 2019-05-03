@@ -378,7 +378,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Nombre Video"/>
+            <Property name="text" type="java.lang.String" value="Nombre Audio"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="nombreAudio">
@@ -433,7 +433,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Formato Video"/>
+            <Property name="text" type="java.lang.String" value="Formato Audio"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
@@ -481,7 +481,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="MostrarAudio" alignment="0" max="32767" attributes="0"/>
+                          <Component id="EditarAudio" alignment="0" max="32767" attributes="0"/>
                           <Component id="guardarAudio" alignment="1" max="32767" attributes="0"/>
                           <Component id="regresarAudio" alignment="0" pref="135" max="32767" attributes="0"/>
                       </Group>
@@ -492,7 +492,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="MostrarAudio" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="EditarAudio" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="guardarAudio" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -502,12 +502,12 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="MostrarAudio">
+            <Component class="javax.swing.JButton" name="EditarAudio">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mostrar"/>
+                <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MostrarAudioActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EditarAudioActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="guardarAudio">

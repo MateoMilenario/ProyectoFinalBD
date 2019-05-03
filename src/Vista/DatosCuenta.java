@@ -21,7 +21,6 @@ public class DatosCuenta extends javax.swing.JFrame {
 
     Principal GUIprincipal;
     Cuenta GUICuenta2;
-    LinkedList<CuentaUsuario> cuentas3;
     byte[] Imagenperfil;
 
     //Nombre del Usuario el cual será el PK para la BD
@@ -30,21 +29,26 @@ public class DatosCuenta extends javax.swing.JFrame {
     /**
      * Creates new form DatosCuenta
      */
-    public DatosCuenta() {
+    public DatosCuenta(String NombreU) {
         initComponents();
         this.setLocationRelativeTo(this);
-        cuentas3 = new LinkedList<>();
+        NombreUsuario = NombreU;
 
-        eliminarCuenta.setEnabled(false);
+        MostrarDatos();
+        nombreUsuario2.enable(false);
+        Nombres.enable(false);
+        Apellidos.enable(false);
+        Genero.enable(false);
+        Email.enable(false);
+        fechaNacimiento.enable(false);
+        fechaCreacion.enable(false);
+        Contraseña.enable(false);
+        eliminarCuenta.setEnabled(true);
 
     }
 
-    public String getNombreUsuario() {
-        return NombreUsuario;
-    }
-
-    public void setNombreUsuario(String NombreUsuario) {
-        this.NombreUsuario = NombreUsuario;
+    public DatosCuenta() {
+        initComponents();
     }
 
     /**
@@ -81,7 +85,6 @@ public class DatosCuenta extends javax.swing.JFrame {
         Contraseña = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         eliminarCuenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -152,7 +155,7 @@ public class DatosCuenta extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(nombreUsuario2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,14 +219,6 @@ public class DatosCuenta extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("Mostrar datos");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         eliminarCuenta.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         eliminarCuenta.setText("Eliminar cuenta");
         eliminarCuenta.addActionListener(new java.awt.event.ActionListener() {
@@ -246,11 +241,9 @@ public class DatosCuenta extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eliminarCuenta)))
+                        .addComponent(eliminarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -267,7 +260,6 @@ public class DatosCuenta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                     .addComponent(eliminarCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -283,21 +275,6 @@ public class DatosCuenta extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        MostrarDatos();
-        eliminarCuenta.setEnabled(true);
-        nombreUsuario2.enable(false);
-        Nombres.enable(false);
-        Apellidos.enable(false);
-        Genero.enable(false);
-        Email.enable(false);
-        fechaNacimiento.enable(false);
-        fechaCreacion.enable(false);
-        Contraseña.enable(false);
-
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void eliminarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarCuentaActionPerformed
 
@@ -362,32 +339,26 @@ public class DatosCuenta extends javax.swing.JFrame {
 
         CuentaUsuario cUsuario = cCuenta.LeerCuenta(NombreUsuario);
 
-        cuentas3.add(cUsuario);
+        nombreUsuario2.setText(cUsuario.getNombreUsuario());
+        Nombres.setText(cUsuario.getNombre1c() + " " + cUsuario.getNombre2c());
+        Apellidos.setText(cUsuario.getApellido1c() + " " + cUsuario.getApellido2c());
+        Genero.setText(cUsuario.getGenero());
+        Email.setText(cUsuario.getEmail());
+        fechaNacimiento.setText(cUsuario.getFecha_Nacimiento());
+        fechaCreacion.setText(cUsuario.getFecha_Creacion());
+        Contraseña.setText(cUsuario.getContrasena());
 
-        for (int i = 0; i < cuentas3.size(); i++) {
+        //**********************************************************************************************************************************
+        Imagenperfil = cUsuario.getFotoPerfil();
 
-            nombreUsuario2.setText(cuentas3.get(i).getNombreUsuario());
-            Nombres.setText(cuentas3.get(i).getNombre1c() + " " + cuentas3.get(i).getNombre2c());
-            Apellidos.setText(cuentas3.get(i).getApellido1c() + " " + cuentas3.get(i).getApellido2c());
-            Genero.setText(cuentas3.get(i).getGenero());
-            Email.setText(cuentas3.get(i).getEmail());
-            fechaNacimiento.setText(cuentas3.get(i).getFecha_Nacimiento());
-            fechaCreacion.setText(cuentas3.get(i).getFecha_Creacion());
-            Contraseña.setText(cuentas3.get(i).getContrasena());
+        //Se pasa la imagen que está en un arreglo de byte para convertirlo en un icono
+        ImageIcon icon = new ImageIcon(Imagenperfil);
 
-            //**********************************************************************************************************************************
-            Imagenperfil = cuentas3.get(i).getFotoPerfil();
+        //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(LabelFoto2.getWidth(), LabelFoto2.getHeight(), Image.SCALE_DEFAULT));
 
-            //Se pasa la imagen que está en un arreglo de byte para convertirlo en un icono
-            ImageIcon icon = new ImageIcon(Imagenperfil);
-
-            //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
-            Icon icono = new ImageIcon(icon.getImage().getScaledInstance(LabelFoto2.getWidth(), LabelFoto2.getHeight(), Image.SCALE_DEFAULT));
-
-            //Se coloca la imagen con el tamaño que tiene en el label
-            LabelFoto2.setIcon(icono);
-
-        }//Fin for
+        //Se coloca la imagen con el tamaño que tiene en el label
+        LabelFoto2.setIcon(icono);
 
     }//Fin método
 
@@ -404,7 +375,6 @@ public class DatosCuenta extends javax.swing.JFrame {
     private javax.swing.JTextField fechaCreacion;
     private javax.swing.JTextField fechaNacimiento;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

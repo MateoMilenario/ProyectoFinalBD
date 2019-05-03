@@ -51,9 +51,10 @@ public class ModificarDatos extends javax.swing.JFrame {
     /**
      * Creates new form ModigicarDatos
      */
-    public ModificarDatos() {
+    public ModificarDatos(String NombreUsuarioM) {
         initComponents();
         this.setLocationRelativeTo(this);
+        NombreUsuarioModificar = NombreUsuarioM;
 
         nuevaContraseña = null;
         repetirContraseña = null;
@@ -68,19 +69,30 @@ public class ModificarDatos extends javax.swing.JFrame {
         archivo = null;
         FechaCreacion = null;
 
+        MostrarDatosModificar();
+
         guardarDcuenta.setEnabled(false);
+        NuevaContraseña.setEnabled(false);
+        RepetirContraseña.setEnabled(false);
+        EditarNombre1.setEnabled(false);
+        EditarNombre2.setEnabled(false);
+        EditarApellido1.setEnabled(false);
+        EditarApellido2.setEnabled(false);
+        EditarFechaNacimiento.setEnabled(false);
+
         contraseñaActual.setEnabled(false);
         fechaNActural.setEnabled(false);
         generoActual.setEnabled(false);
+        GeneroF.setEnabled(false);
+        GeneroM.setEnabled(false);
+        EditarEmail.setEnabled(false);
+        cambiarFoto.setEnabled(false);
+        eliminarFoto.setEnabled(false);
 
     }
 
-    public String getNombreUsarioModificar() {
-        return NombreUsuarioModificar;
-    }
-
-    public void setNombreUsarioModificar(String NombreUsarioModificar) {
-        this.NombreUsuarioModificar = NombreUsarioModificar;
+    public ModificarDatos() {
+        initComponents();
     }
 
     /**
@@ -115,8 +127,8 @@ public class ModificarDatos extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         EditarLabelFoto = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        cambiarFoto = new javax.swing.JButton();
+        eliminarFoto = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         EditarEmail = new javax.swing.JTextField();
@@ -133,7 +145,7 @@ public class ModificarDatos extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         guardarDcuenta = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        Desplegar = new javax.swing.JButton();
+        editar = new javax.swing.JButton();
         RepetirContraseña = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         contraseñaActual = new javax.swing.JTextField();
@@ -212,17 +224,17 @@ public class ModificarDatos extends javax.swing.JFrame {
 
         EditarLabelFoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jButton1.setText("Cambiar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cambiarFoto.setText("Cambiar");
+        cambiarFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cambiarFotoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Eliminar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        eliminarFoto.setText("Eliminar");
+        eliminarFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                eliminarFotoActionPerformed(evt);
             }
         });
 
@@ -256,8 +268,8 @@ public class ModificarDatos extends javax.swing.JFrame {
                         .addComponent(EditarLabelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cambiarFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(eliminarFoto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
@@ -298,9 +310,9 @@ public class ModificarDatos extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(EditarLabelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cambiarFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(eliminarFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -347,10 +359,10 @@ public class ModificarDatos extends javax.swing.JFrame {
             }
         });
 
-        Desplegar.setText("Mostrar");
-        Desplegar.addActionListener(new java.awt.event.ActionListener() {
+        editar.setText("Editar");
+        editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DesplegarActionPerformed(evt);
+                editarActionPerformed(evt);
             }
         });
 
@@ -362,7 +374,7 @@ public class ModificarDatos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(guardarDcuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Desplegar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addContainerGap())
@@ -373,7 +385,7 @@ public class ModificarDatos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(guardarDcuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(Desplegar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -596,7 +608,7 @@ public class ModificarDatos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_guardarDcuentaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void cambiarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarFotoActionPerformed
 
         int Resultado = JOptionPane.showConfirmDialog(null, "¿Está seguro/a de cambiar la foto de perfil?");
 
@@ -630,17 +642,15 @@ public class ModificarDatos extends javax.swing.JFrame {
 
         }//Fin if verificación
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_cambiarFotoActionPerformed
 
-    private void DesplegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DesplegarActionPerformed
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+      
+        ActivarCampos();
 
-        MostrarDatosModificar();
-        guardarDcuenta.setEnabled(true);
-        Desplegar.setEnabled(false);
+    }//GEN-LAST:event_editarActionPerformed
 
-    }//GEN-LAST:event_DesplegarActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void eliminarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarFotoActionPerformed
 
         //Este método elimina la foto de perfil que conserva el usuario, generando que se coloque 
         //una foto de perfil predeterminada por el aplicativo
@@ -655,7 +665,7 @@ public class ModificarDatos extends javax.swing.JFrame {
 
         }//Fin if
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_eliminarFotoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -735,63 +745,56 @@ public class ModificarDatos extends javax.swing.JFrame {
 
     }//Fin mñétodo
 
+    public void ActivarCampos() {
+
+        guardarDcuenta.setEnabled(true);
+        NuevaContraseña.setEnabled(true);
+        RepetirContraseña.setEnabled(true);
+        EditarNombre1.setEnabled(true);
+        EditarNombre2.setEnabled(true);
+        EditarApellido1.setEnabled(true);
+        EditarApellido2.setEnabled(true);
+        EditarFechaNacimiento.setEnabled(true);
+
+        GeneroF.setEnabled(true);
+        GeneroM.setEnabled(true);
+        EditarEmail.setEnabled(true);
+        cambiarFoto.setEnabled(true);
+        eliminarFoto.setEnabled(true);
+
+    }//Fin método
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Desplegar;
     private javax.swing.JTextField EditarApellido1;
     private javax.swing.JTextField EditarApellido2;
     private javax.swing.JTextField EditarEmail;
-    private javax.swing.JTextField EditarEmail1;
-    private javax.swing.JTextField EditarEmail2;
     private com.toedter.calendar.JDateChooser EditarFechaNacimiento;
-    private com.toedter.calendar.JDateChooser EditarFechaNacimiento1;
-    private com.toedter.calendar.JDateChooser EditarFechaNacimiento2;
     private javax.swing.JLabel EditarLabelFoto;
-    private javax.swing.JLabel EditarLabelFoto1;
-    private javax.swing.JLabel EditarLabelFoto2;
     private javax.swing.JTextField EditarNombre1;
     private javax.swing.JTextField EditarNombre2;
     private javax.swing.ButtonGroup GeneroEditar;
     private javax.swing.JRadioButton GeneroF;
     private javax.swing.JRadioButton GeneroM;
     private javax.swing.JLabel LabelFN;
-    private javax.swing.JLabel LabelFN1;
-    private javax.swing.JLabel LabelFN2;
     private javax.swing.JTextField NuevaContraseña;
     private javax.swing.JTextField RepetirContraseña;
+    private javax.swing.JButton cambiarFoto;
     private javax.swing.JTextField contraseñaActual;
+    private javax.swing.JButton editar;
+    private javax.swing.JButton eliminarFoto;
     private javax.swing.JTextField fechaNActural;
-    private javax.swing.JTextField fechaNActural1;
-    private javax.swing.JTextField fechaNActural2;
     private javax.swing.JTextField generoActual;
-    private javax.swing.JTextField generoActual1;
-    private javax.swing.JTextField generoActual2;
     private javax.swing.JButton guardarDcuenta;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -803,8 +806,6 @@ public class ModificarDatos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

@@ -27,7 +27,7 @@ public class DatosVideo extends javax.swing.JFrame {
     Principal GUIprincipal3;
 
     int contador;
-    byte [] VideoSubido;
+    byte[] VideoSubido;
 
     //**************************************************
     String NombreUsuarioVideos;
@@ -38,10 +38,11 @@ public class DatosVideo extends javax.swing.JFrame {
     String CategoriaActual;
     String DescripcionVideo;
 
-    public DatosVideo() {
+    public DatosVideo(String NombreUsuarioV) {
 
         initComponents();
         this.setLocationRelativeTo(this);
+        NombreUsuarioVideos = NombreUsuarioV;
 
         videosCuenta = new LinkedList<>();
         categoriasVideos = new LinkedList<>();
@@ -57,23 +58,26 @@ public class DatosVideo extends javax.swing.JFrame {
         contador = 0;
         VideoSubido = null;
 
-        guardarV.setEnabled(false);
+        MostrarVideosCuenta();
+
         formatoActual.setEnabled(false);
+        nombreVideo.setEnabled(false);
+        formatoVideo.setEnabled(false);
         categoriaActual.setEnabled(false);
+        categorias.setEnabled(false);
+        duracionHoras.setEnabled(false);
+        duracionMinutos.setEnabled(false);
+        duracionSegundos.setEnabled(false);
+        descripcionVideo.setEnabled(false);
+        guardarV.setEnabled(false);
 
         ImagenPredeterminada();
 
     }
 
-    //********************************************************************
-    public String getNombreUsuarioVideos() {
-        return NombreUsuarioVideos;
+    public DatosVideo() {
+        initComponents();
     }
-
-    public void setNombreUsuarioVideos(String NombreUsuarioVideos) {
-        this.NombreUsuarioVideos = NombreUsuarioVideos;
-    }
-    //********************************************************************
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,7 +118,7 @@ public class DatosVideo extends javax.swing.JFrame {
         categorias = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        Mostrar = new javax.swing.JButton();
+        editar = new javax.swing.JButton();
         guardarV = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         duracionSegundos = new javax.swing.JTextField();
@@ -239,10 +243,10 @@ public class DatosVideo extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
-        Mostrar.setText("Mostrar");
-        Mostrar.addActionListener(new java.awt.event.ActionListener() {
+        editar.setText("Editar");
+        editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MostrarActionPerformed(evt);
+                editarActionPerformed(evt);
             }
         });
 
@@ -266,7 +270,7 @@ public class DatosVideo extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Mostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(guardarV)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -280,7 +284,7 @@ public class DatosVideo extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(guardarV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Mostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(editar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -513,29 +517,11 @@ public class DatosVideo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarActionPerformed
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
 
-        ControlVideo CI = new ControlVideo();
+        activarCampos();
 
-        //Devuelve un linkelist donde se encuentra guardado todos los datos de las imagenes de la cuenta
-        videosCuenta = CI.TraerVideos(NombreUsuarioVideos);
-
-        if (videosCuenta.isEmpty() == false) {
-
-            MostrarVideos();
-
-            guardarV.setEnabled(true);
-            Mostrar.setEnabled(false);
-
-            EliminarVideo.setEnabled(true);
-
-        } else {
-
-            JOptionPane.showMessageDialog(null, "No has agregado contenido de video a tu cuenta." + "\n\nNota: puedes agregar videos presionando la pestaña" + "\n[Video] que se encuentra en la ventana principal.");
-
-        }//Fin if
-
-    }//GEN-LAST:event_MostrarActionPerformed
+    }//GEN-LAST:event_editarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
@@ -548,6 +534,7 @@ public class DatosVideo extends javax.swing.JFrame {
             //Para traer los datos de las imágenes correspondiente
             //a una cuenta. Claramente, cada invocación actualiza los datos
             MostrarVideos();
+            desactivarCampos();
 
         }//Fin if
 
@@ -564,6 +551,7 @@ public class DatosVideo extends javax.swing.JFrame {
             //Para traer los datos de las imágenes correspondiente
             //a una cuenta. Claramente, cada invocación actualiza los datos
             MostrarVideos();
+            desactivarCampos();
 
         }//Fin if
 
@@ -576,7 +564,6 @@ public class DatosVideo extends javax.swing.JFrame {
         NombreVideo = nombreVideo.getText();
         FormatoActual = formatoVideo.getSelectedItem().toString();
         CategoriaActual = categorias.getSelectedItem().toString();
-//        Duracion = duracionHoras.getText() +":"+ duracionMinutos.getText() +":"+ duracionSegundos.getText();
         DescripcionVideo = descripcionVideo.getText();
 
         String duracion = videosCuenta.get(contador).getDuracionVideo();
@@ -710,7 +697,7 @@ public class DatosVideo extends javax.swing.JFrame {
 
     private void EliminarVideoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarVideoActionPerformed
 
-        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el video?");
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro/a que desea eliminar el video?");
 
         if (respuesta == 0) {
 
@@ -868,16 +855,67 @@ public class DatosVideo extends javax.swing.JFrame {
 
     }//Fin método
 
+    public void MostrarVideosCuenta() {
+
+        ControlVideo CI = new ControlVideo();
+
+        //Devuelve un linkelist donde se encuentra guardado todos los datos de las imagenes de la cuenta
+        videosCuenta = CI.TraerVideos(NombreUsuarioVideos);
+
+        if (videosCuenta.isEmpty() == false) {
+
+            MostrarVideos();
+
+            guardarV.setEnabled(true);
+            EliminarVideo.setEnabled(true);
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "No has agregado contenido de video a tu cuenta." + "\n\nNota: puedes agregar videos presionando la pestaña" + "\n[Video] que se encuentra en la ventana principal.");
+
+            EliminarVideo.setEnabled(false);
+            guardarV.setEnabled(false);
+
+        }//Fin if
+
+    }//Fin método
+
+    public void activarCampos() {
+
+        nombreVideo.setEnabled(true);
+        formatoVideo.setEnabled(true);
+        categorias.setEnabled(true);
+        duracionHoras.setEnabled(true);
+        duracionMinutos.setEnabled(true);
+        duracionSegundos.setEnabled(true);
+        descripcionVideo.setEnabled(true);
+        guardarV.setEnabled(true);
+
+    }//Fin método
+
+    public void desactivarCampos() {
+
+        nombreVideo.setEnabled(false);
+        formatoVideo.setEnabled(false);
+        categorias.setEnabled(false);
+        duracionHoras.setEnabled(false);
+        duracionMinutos.setEnabled(false);
+        duracionSegundos.setEnabled(false);
+        descripcionVideo.setEnabled(false);
+        guardarV.setEnabled(false);
+
+    }//Fin método
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton EliminarVideo;
     private javax.swing.JLabel LabelVideo;
-    private javax.swing.JButton Mostrar;
     private javax.swing.JTextField categoriaActual;
     private javax.swing.JComboBox<String> categorias;
     private javax.swing.JTextArea descripcionVideo;
     private javax.swing.JTextField duracionHoras;
     private javax.swing.JTextField duracionMinutos;
     private javax.swing.JTextField duracionSegundos;
+    private javax.swing.JButton editar;
     private javax.swing.JTextField fechaSubida;
     private javax.swing.JTextField formatoActual;
     private javax.swing.JComboBox<String> formatoVideo;

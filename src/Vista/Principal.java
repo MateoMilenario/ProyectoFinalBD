@@ -5,8 +5,10 @@
  */
 package Vista;
 
+import Control.ControlAudio;
 import Control.ControlImagen;
 import Control.ControlVideo;
+import Modelo.Audio;
 import Modelo.Imagen;
 import Modelo.Video;
 import java.util.LinkedList;
@@ -30,12 +32,14 @@ public class Principal extends javax.swing.JFrame {
     AgregarAudio GUIagregarAudio;
     DatosAudio GUIdatosAudio;
     BusquedaVideos GUIbusquedadVideos;
+    BusquedaAudios GUIbusquedadAudios;
 
     //************************************
     LinkedList<Imagen> ImagenesGuardadas;
     LinkedList<Video> VideoGuardadas;
+    LinkedList<Audio> AudiosGuardados;
 
-    String NombreUsuarioPrincipal;
+    public String NombreUsuarioPrincipal;
 
     /**
      * Creates new form Principal
@@ -46,9 +50,9 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         ImagenesGuardadas = new LinkedList<>();
         VideoGuardadas = new LinkedList<>();
+        AudiosGuardados = new LinkedList<>();
 
         //TraerImagenes();
-
     }
 
     public String getNombreUsuarioPrincipal() {
@@ -255,9 +259,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
 
-        DC = new DatosCuenta();
+        DC = new DatosCuenta(NombreUsuarioPrincipal);
         //Se le pasa el nombre del usuario a la ventana "DatosCuenta"
-        DC.setNombreUsuario(NombreUsuarioPrincipal);
         DC.show();
         this.dispose();
 
@@ -275,8 +278,7 @@ public class Principal extends javax.swing.JFrame {
 
             if (ImagenesGuardadas.isEmpty() == false) {
 
-                GUIbusquedaI = new BusquedaImagenes();
-                GUIbusquedaI.setNombreUsuarioBusquedadI(NombreUsuarioPrincipal);
+                GUIbusquedaI = new BusquedaImagenes(NombreUsuarioPrincipal);
                 GUIbusquedaI.show();
                 this.dispose();
 
@@ -295,8 +297,7 @@ public class Principal extends javax.swing.JFrame {
 
             if (VideoGuardadas.isEmpty() == false) {
 
-                GUIbusquedadVideos = new BusquedaVideos();
-                GUIbusquedadVideos.setNombreUsuarioBusquedadV(NombreUsuarioPrincipal);
+                GUIbusquedadVideos = new BusquedaVideos(NombreUsuarioPrincipal);
                 GUIbusquedadVideos.show();
                 this.dispose();
 
@@ -309,14 +310,30 @@ public class Principal extends javax.swing.JFrame {
 
         } else {
 
+            ControlAudio cAudio = new ControlAudio();
+
+            AudiosGuardados = cAudio.BuscarAudiosGuardados();
+
+            if (AudiosGuardados.isEmpty() == false) {
+
+                GUIbusquedadAudios = new BusquedaAudios(NombreUsuarioPrincipal);
+                GUIbusquedadAudios.show();
+                this.dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "No se encuentran audios almacenados en el repositorio." + "\n\nNota: puedes agregar audios presionando la pestaña" + "\n[Audio] que se encuentra en la ventana principal.");
+                contenidos.setSelectedItem("-----------------");
+
+            }//Fin if          
+
         }//Fin if
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
-        MD = new ModificarDatos();
-        MD.setNombreUsarioModificar(NombreUsuarioPrincipal);
+        MD = new ModificarDatos(NombreUsuarioPrincipal);
         MD.show();
         this.dispose();
 
@@ -333,9 +350,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
-        GUIDatosImagen = new DatosImagen();
+        GUIDatosImagen = new DatosImagen(NombreUsuarioPrincipal);
         GUIDatosImagen.show();
-        GUIDatosImagen.setNombreUsuarioImagenes(NombreUsuarioPrincipal);
         this.dispose();
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -351,8 +367,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 
-        GUIdatosVideo = new DatosVideo();
-        GUIdatosVideo.setNombreUsuarioVideos(NombreUsuarioPrincipal);
+        GUIdatosVideo = new DatosVideo(NombreUsuarioPrincipal);
         GUIdatosVideo.show();
         this.dispose();
 
@@ -369,8 +384,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
 
-        GUIdatosAudio = new DatosAudio();
-        GUIdatosAudio.setNombreUsuarioAudios(NombreUsuarioPrincipal);
+        GUIdatosAudio = new DatosAudio(NombreUsuarioPrincipal);
         GUIdatosAudio.show();
         this.dispose();
 

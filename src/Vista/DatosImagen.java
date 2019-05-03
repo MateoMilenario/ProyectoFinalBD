@@ -37,10 +37,11 @@ public class DatosImagen extends javax.swing.JFrame {
     String CategoriaActual;
     String DescripcionImagen;
 
-    public DatosImagen() {
+    public DatosImagen(String NombreUsuarioI) {
 
         initComponents();
         this.setLocationRelativeTo(this);
+        NombreUsuarioImagenes = NombreUsuarioI;
 
         imagenesCuenta = new LinkedList<>();
         categoriasImagenes = new LinkedList<>();
@@ -56,23 +57,24 @@ public class DatosImagen extends javax.swing.JFrame {
         contador = 0;
         ImagenSubida = null;
 
-        guardarI.setEnabled(false);
-        elminarImagen.setEnabled(false);
+        TraerImagenesCuenta();
+
         formatoActual.setEnabled(false);
+        formatoImagen.setEnabled(false);
+        categorias.setEnabled(false);
         categoriaActual.setEnabled(false);
+        nombreImagen.setEnabled(false);
+        resolucion.setEnabled(false);
+        descripcionImagen.setEnabled(false);
+        guardarI.setEnabled(false);
 
+    }
+
+    public DatosImagen() {
+        initComponents();
     }
 
     //********************************************************************
-    public String getNombreUsuarioImagenes() {
-        return NombreUsuarioImagenes;
-    }
-
-    public void setNombreUsuarioImagenes(String NombreUsuarioImagenes) {
-        this.NombreUsuarioImagenes = NombreUsuarioImagenes;
-    }
-    //********************************************************************
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,9 +114,9 @@ public class DatosImagen extends javax.swing.JFrame {
         categorias = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        MostrarDatos = new javax.swing.JButton();
         guardarI = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        Editar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,13 +213,6 @@ public class DatosImagen extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
-        MostrarDatos.setText("Mostrar");
-        MostrarDatos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MostrarDatosActionPerformed(evt);
-            }
-        });
-
         guardarI.setText("Guardar");
         guardarI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,15 +227,22 @@ public class DatosImagen extends javax.swing.JFrame {
             }
         });
 
+        Editar.setText("Editar");
+        Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(MostrarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(guardarI)
+                .addComponent(guardarI, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
                 .addContainerGap())
@@ -249,10 +251,10 @@ public class DatosImagen extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(guardarI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(MostrarDatos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(guardarI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -295,7 +297,7 @@ public class DatosImagen extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(formatoImagen, 0, 120, Short.MAX_VALUE)))
+                                    .addComponent(formatoImagen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
@@ -411,29 +413,6 @@ public class DatosImagen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MostrarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarDatosActionPerformed
-
-        ControlImagen CI = new ControlImagen();
-
-        //Devuelve un linkelist donde se encuentra guardado todos los datos de las imagenes de la cuenta
-        imagenesCuenta = CI.TraerImagenes(NombreUsuarioImagenes);
-
-        if (imagenesCuenta.isEmpty() == false) {
-
-            MostrarImagenes();
-
-            elminarImagen.setEnabled(true);
-            guardarI.setEnabled(true);
-            MostrarDatos.setEnabled(false);
-
-        } else {
-
-            JOptionPane.showMessageDialog(null, "No has agregado contenido de imagen a tu cuenta." + "\n\nNota: puedes agregar imágenes presionando la pestaña" + "\n[Imagen] que se encuentra en la ventana principal.");
-
-        }//Fin if
-
-    }//GEN-LAST:event_MostrarDatosActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         if (contador < (imagenesCuenta.size() - 1)) {
@@ -445,6 +424,7 @@ public class DatosImagen extends javax.swing.JFrame {
             //Para traer los datos de las imágenes correspondiente
             //a una cuenta. Claramente, cada invocación actualiza los datos
             MostrarImagenes();
+            desactivarCampos();
 
         }//Fin if
 
@@ -461,6 +441,7 @@ public class DatosImagen extends javax.swing.JFrame {
             //Para traer los datos de las imágenes correspondiente
             //a una cuenta. Claramente, cada invocación actualiza los datos
             MostrarImagenes();
+            desactivarCampos();
 
         }//Fin if
 
@@ -510,10 +491,9 @@ public class DatosImagen extends javax.swing.JFrame {
         }//Fin for
 
         //*************************************************************************************************************************
-         
         boolean t = CI2.ActualizarDatos(imagenesCuenta.get(contador).getIdImagen(), imagenActualizar, pkCategoria);
-        
-         if (t) {
+
+        if (t) {
 
             JOptionPane.showMessageDialog(null, "Datos actualizados.");
 
@@ -568,6 +548,12 @@ public class DatosImagen extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+
+        activarCampos();
+
+    }//GEN-LAST:event_EditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -644,9 +630,59 @@ public class DatosImagen extends javax.swing.JFrame {
 
     }//Fin método
 
+    public void TraerImagenesCuenta() {
+
+        ControlImagen CI = new ControlImagen();
+
+        //Devuelve un linkelist donde se encuentra guardado todos los datos de las imagenes de la cuenta
+        imagenesCuenta = CI.TraerImagenes(NombreUsuarioImagenes);
+
+        if (imagenesCuenta.isEmpty() == false) {
+
+            MostrarImagenes();
+
+            elminarImagen.setEnabled(true);
+            guardarI.setEnabled(true);
+            elminarImagen.setEnabled(true);
+            guardarI.setEnabled(true);
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "No has agregado contenido de imagen a tu cuenta." + "\n\nNota: puedes agregar imágenes presionando la pestaña" + "\n[Imagen] que se encuentra en la ventana principal.");
+            elminarImagen.setEnabled(false);
+            guardarI.setEnabled(false);
+
+        }//Fin if
+
+    }//Fin método
+
+    public void activarCampos() {
+
+        formatoImagen.setEnabled(true);
+        categorias.setEnabled(true);
+        nombreImagen.setEnabled(true);
+        resolucion.setEnabled(true);
+        descripcionImagen.setEnabled(true);
+        guardarI.setEnabled(true);
+
+    }//Fin método
+
+    public void desactivarCampos() {
+
+        formatoActual.setEnabled(false);
+        formatoImagen.setEnabled(false);
+        categorias.setEnabled(false);
+        categoriaActual.setEnabled(false);
+        nombreImagen.setEnabled(false);
+        resolucion.setEnabled(false);
+        descripcionImagen.setEnabled(false);
+        guardarI.setEnabled(false);
+
+    }//Fin método
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Editar;
     private javax.swing.JLabel LabelImagen;
-    private javax.swing.JButton MostrarDatos;
     private javax.swing.JTextField categoriaActual;
     private javax.swing.JComboBox<String> categorias;
     private javax.swing.JTextArea descripcionImagen;

@@ -152,9 +152,11 @@ public class Cuenta extends javax.swing.JFrame {
             if (NombreUsuario.equals(nombreUsuarioRegistro) && Contraseña.equals(ContraseñaRegistro)) {
 
                 principal = new Principal();
+                principal.NombreUsuarioPrincipal = NombreUsuario;
                 principal.show();
                 this.dispose();
-                principal.setNombreUsuarioPrincipal(nombreUsuarioRegistro);
+               
+                //principal.setNombreUsuarioPrincipal(nombreUsuarioRegistro);
 
             } else {
 

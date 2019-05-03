@@ -57,10 +57,11 @@ public class BusquedaVideos extends javax.swing.JFrame {
     boolean cambio = true;
 
     //*******************************************************
-    public BusquedaVideos() {
+    public BusquedaVideos(String NombreUsuarioBV) {
 
         initComponents();
         this.setLocationRelativeTo(this);
+        nombreUsuarioBusquedadV = NombreUsuarioBV;
 
         videosGuardados = new LinkedList<>();
         videosPalabraBuscar = new LinkedList<>();
@@ -82,6 +83,7 @@ public class BusquedaVideos extends javax.swing.JFrame {
 
         TraerVideos();
         TraerCategorias();
+        TraerCuenta();
 
         //****************************************************************************
         if (cambio) {
@@ -112,16 +114,10 @@ public class BusquedaVideos extends javax.swing.JFrame {
 
     }
 
-    //*************************************************************************
-    public String getNombreUsuarioBusquedadV() {
-        return nombreUsuarioBusquedadV;
+    public BusquedaVideos() {
+        initComponents();
     }
 
-    public void setNombreUsuarioBusquedadV(String nombreUsuarioBusquedadV) {
-        this.nombreUsuarioBusquedadV = nombreUsuarioBusquedadV;
-    }
-
-    //*************************************************************************
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -837,14 +833,6 @@ public class BusquedaVideos extends javax.swing.JFrame {
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
 
         TextComentario.setEnabled(false);
-
-        if (parar == 0) {
-
-            TraerCuenta();
-
-        }//Fin if
-
-        parar = 1;
 
         //***************************************************************************************************************************
         Pclave = pClave.getText();

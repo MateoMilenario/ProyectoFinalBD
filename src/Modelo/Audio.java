@@ -60,6 +60,21 @@ public class Audio {
         this.ArchivoAudio = ArchivoAudio;
     }
 
+    public Audio(String fechaSubidaA, String NombreAudio, String Formato_Audio, String TamanoAudio, String DuracionAudio, String DescripcionAudio, String IdContenidoA, String categoriaAudio, byte[] ArchivoAudio, String NombreUsuarioPK, byte[] ImagenUsuario) {
+        this.fechaSubidaA = fechaSubidaA;
+        this.NombreAudio = NombreAudio;
+        this.Formato_Audio = Formato_Audio;
+        this.TamanoAudio = TamanoAudio;
+        this.DuracionAudio = DuracionAudio;
+        this.DescripcionAudio = DescripcionAudio;
+        this.IdContenidoA = IdContenidoA;
+        this.categoriaAudio = categoriaAudio;
+        this.ArchivoAudio = ArchivoAudio;
+        this.NombreUsuarioPK = NombreUsuarioPK;
+        this.ImagenUsuario = ImagenUsuario;
+    }
+    
+
     //*****************************************************************************************
     public String getIdContenidoA() {
         return IdContenidoA;

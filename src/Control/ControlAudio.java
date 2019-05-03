@@ -26,7 +26,6 @@ public class ControlAudio {
 
         //String insertarSQL = "INSERT INTO audios(FechaSubidaA, NombreAudio, Audio1, Formato_Audio, TamanoAudio, DuracionAudio, DescripcionAudio, NombreUsuario3, CodigoCategoria3)"
         //      + "values(?,?,?,?,?,?,?,?,?)";
-        
         String insertarSQL = "call InsertarAudiosCuenta(?,?,?,?,?,?,?,?,?)";
 
         t = ObjAudio.insertarAudios(audio, insertarSQL, NombreUsuario, Pkcategoria);
@@ -110,47 +109,59 @@ public class ControlAudio {
 
     }//Fin método
 
-//    public LinkedList<Audio> BuscarAudiosGuardados() {
-//
-//        LinkedList<Audio> audios = new LinkedList<>();
-//
-//        String BuscarSQL = "SELECT A.idContenidoA, A.FechaSubidaA, A.NombreAudio, A.Formato_Audio, A.TamanoAudio, A.DuracionAudio, A.DescripcionAudio, Ca.NombreCategoria, C.NombreUsuario, C.Foto FROM cuentas C, audios A, categorias Ca where C.NombreUsuario = A.NombreUsuario3 AND A.CodigoCategoria3 = Ca.CodigoCategoria";
-//
-//        Audio ObjeAud = new Audio();
-//
-//        Audio audEnvio = null;
-//
-//        ResultSet rset = null;
-//
-//        rset = ObjeAud.TraerAudiosCuenta(BuscarSQL);
-//
-//        try {
-//
-//            while (rset.next()) {
-//
-//                String NombreAudio = rset.getString("NombreAudio");
-//                String IdAudio = String.valueOf(rset.getString("idContenidoA"));
-//                String fechaSubida = rset.getString("FechaSubidaA");
-//                String formatoAudio = rset.getString("Formato_Audio");
-//                String tamanoAudio = rset.getString("TamanoAudio");
-//                String descripcion = rset.getString("DescripcionAudio");
-//                String categoria = rset.getString("NombreCategoria");
-//                String Nombreusuario = rset.getString("NombreUsuario");
-//
-//                //audEnvio = new Audio (IdAudio, fechaSubida, NombreAudio, formatoAudio, tamanoAudio, descripcion, Nombreusuario, categoria);
-//                audios.add(audEnvio);
-//
-//            }//Fin while
-//
-//        } catch (SQLException e) {
-//
-//            JOptionPane.showMessageDialog(null, "Fallo en la lectura de datos" + e, "Error", JOptionPane.ERROR_MESSAGE);
-//
-//        }
-//
-//        return audios;
-//
-//    }//Fin método
+    public LinkedList<Audio> BuscarAudiosGuardados() {
+
+        LinkedList<Audio> audios = new LinkedList<>();
+
+        //String BuscarSQL = "SELECT A.idContenidoA, A.FechaSubidaA, A.NombreAudio, A.Formato_Audio, A.TamanoAudio, A.DuracionAudio, A.DescripcionAudio, Ca.NombreCategoria, C.NombreUsuario, C.Foto FROM cuentas C, audios A, categorias Ca where C.NombreUsuario = A.NombreUsuario3 AND A.CodigoCategoria3 = Ca.CodigoCategoria";
+
+        String BuscarSQL = "call ConsultaAudiosTotalesGuardadas()";
+        
+        Audio ObjeAud = new Audio();
+
+        Audio audEnvio = null;
+
+        ResultSet rset = null;
+
+        rset = ObjeAud.TraerAudiosCuenta(BuscarSQL);
+
+        try {
+
+            while (rset.next()) {
+
+                String NombreAudio = rset.getString("NombreAudio");
+                String IdAudio = String.valueOf(rset.getString("idContenidoA"));
+                String fechaSubida = rset.getString("FechaSubidaA");
+                String formatoAudio = rset.getString("Formato_Audio");
+                String tamanoAudio = rset.getString("TamanoAudio");
+                String Duracion = rset.getString("DuracionAudio");
+                String descripcion = rset.getString("DescripcionAudio");
+                String categoria = rset.getString("NombreCategoria");
+                String Nombreusuario = rset.getString("NombreUsuario");
+
+                //Se trae el archivo de audio y la foto que quedó guardada de tipo blob en BD  
+                Blob blob = rset.getBlob("Audio1");
+                Blob blob2 = rset.getBlob("Foto");
+
+                //Se guarda los byte de los archivos audio e imagen del usuario en un arreglo de byte
+                byte[] archivoAudio = blob.getBytes(1, (int) blob.length());
+                byte[] archivoFoto = blob.getBytes(1, (int) blob2.length());
+
+                audEnvio = new Audio(fechaSubida, NombreAudio, formatoAudio, tamanoAudio, Duracion, descripcion, IdAudio, categoria, archivoAudio, Nombreusuario, archivoFoto);
+                audios.add(audEnvio);
+
+            }//Fin while
+
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, "Fallo en la lectura de datos: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+
+        }//Fin try
+
+        return audios;
+
+    }//Fin método
+
     public LinkedList<String> TraerAudiosComentarios() {
 
         LinkedList<String> ContenidoComentarios = new LinkedList<>();

@@ -5,14 +5,16 @@
  */
 package Vista;
 
+import Control.ControlAudio;
 import Control.ControlCategoria;
-import Control.ControlComentarioImagen;
+import Control.ControlComentarioAudio;
+
 import Control.ControlCuenta;
-import Control.ControlImagen;
+import Modelo.Audio;
 import Modelo.Categoria;
-import Modelo.ComentarioImagen;
+import Modelo.ComentarioAudio;
 import Modelo.CuentaUsuario;
-import Modelo.Imagen;
+
 import java.awt.Image;
 import java.awt.TextField;
 import java.io.File;
@@ -27,26 +29,26 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mateo
+ * @author Julian Escobar
  */
-public class BusquedaImagenes extends javax.swing.JFrame {
+public class BusquedaAudios extends javax.swing.JFrame {
 
-    Principal GUIprincipal5;
+    Principal GUIprincipal10;
     FileOutputStream salida;
 
-    LinkedList<Imagen> imagenesGuardadas;
-    LinkedList<Imagen> ImagenesPalabraBuscar;
-    LinkedList<Categoria> categoriasImagenes;
-    LinkedList<Imagen> imagenesCategoriasBuscar;
-    LinkedList<ComentarioImagen> comentariosImagenes;
+    LinkedList<Audio> audiosGuardados;
+    LinkedList<Audio> audiosPalabraBuscar;
+    LinkedList<Categoria> categoriasAudios;
+    LinkedList<Audio> audiosCategoriasBuscar;
+    LinkedList<ComentarioAudio> comentariosAudios;
 
-    String nombreUsuarioBusquedadI;
+    String nombreUsuarioBusquedadA;
     String fechaPublicacionC;
     String Pclave;
     String categoriaSeleccionada;
 
     int contador;
-    int contadorImagen;
+    int contadorAudio;
     int contadorComentario;
     int contadorDescarga;
 
@@ -57,20 +59,20 @@ public class BusquedaImagenes extends javax.swing.JFrame {
     boolean cambio = true;
 
     //*******************************************************
-    public BusquedaImagenes(String NombreUsuarioBI) {
+    public BusquedaAudios(String NombreUsuarioBA) {
 
         initComponents();
         this.setLocationRelativeTo(this);
-        nombreUsuarioBusquedadI = NombreUsuarioBI;
+        nombreUsuarioBusquedadA = NombreUsuarioBA;
 
-        imagenesGuardadas = new LinkedList<>();
-        ImagenesPalabraBuscar = new LinkedList<>();
-        categoriasImagenes = new LinkedList<>();
-        imagenesCategoriasBuscar = new LinkedList<>();
-        comentariosImagenes = new LinkedList<>();
+        audiosGuardados = new LinkedList<>();
+        audiosPalabraBuscar = new LinkedList<>();
+        categoriasAudios = new LinkedList<>();
+        audiosCategoriasBuscar = new LinkedList<>();
+        comentariosAudios = new LinkedList<>();
 
         contador = 0;
-        contadorImagen = 1;
+        contadorAudio = 1;
         contadorComentario = 0;
         contadorDescarga = 0;
 
@@ -80,32 +82,30 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         entrar2 = 0;
         parar = 0;
         TextComentario.setEnabled(false);
-
-        TraerImagenes();
+        TraerAudios();
         TraerCategorias();
         TraerCuenta();
 
         //****************************************************************************
         if (cambio) {
 
-            MostrarImagenes();
-            traerComentarios(imagenesGuardadas.get(contador).getIdImagen());
-
-            if (comentariosImagenes.isEmpty() == false) {
+            MostrarAudios();
+            traerComentarios(audiosGuardados.get(contador).getIdContenidoA());
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
                 ValidarBotonesComentario();
-                // DerechaComentario.setEnabled(true);
+                //DerechaComentario.setEnabled(true);
 
             } else {
 
                 //IzquierdaComentario.setEnabled(false);
-                // DerechaComentario.setEnabled(false);
+                //DerechaComentario.setEnabled(false);
             }//Fin if
 
-            jLabelContador.setText("/" + String.valueOf(imagenesGuardadas.size()));
+            jLabelContador.setText("/" + String.valueOf(audiosGuardados.size()));
             BotonIzquierda.setEnabled(false);
-            Contador.setText(String.valueOf(contadorImagen));
+            Contador.setText(String.valueOf(contadorAudio));
 
             mostrar.setEnabled(false);
             cambio = false;
@@ -114,10 +114,10 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     }
 
-    public BusquedaImagenes() {
+    public BusquedaAudios() {
         initComponents();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,7 +129,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabelImagen = new javax.swing.JLabel();
+        jLabelAudio = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         Contador = new javax.swing.JTextField();
         jLabelContador = new javax.swing.JLabel();
@@ -147,20 +147,26 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        DescripcionI = new javax.swing.JTextArea();
-        CategoriaI = new javax.swing.JTextField();
-        FormatoI = new javax.swing.JTextField();
-        NombreI = new javax.swing.JTextField();
-        ResolucionI = new javax.swing.JTextField();
+        DescripcionA = new javax.swing.JTextArea();
+        CategoriaA = new javax.swing.JTextField();
+        FormatoA = new javax.swing.JTextField();
+        NombreA = new javax.swing.JTextField();
+        duracionHoras = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         FechaSubida = new javax.swing.JTextField();
-        jLabelFoto = new javax.swing.JLabel();
+        duracionMinutos = new javax.swing.JTextField();
+        duracionSegundos = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        TamanoA = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabelFotoP = new javax.swing.JLabel();
         jLabelNombreU = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        Descargar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        Buscar = new javax.swing.JButton();
+        Regresar = new javax.swing.JButton();
+        AgregarComentario = new javax.swing.JButton();
         mostrar = new javax.swing.JButton();
         pClave = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -178,7 +184,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabelImagen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabelAudio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         Contador.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -210,13 +216,13 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Formato Imagen");
+        jLabel6.setText("Formato Audio");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setText("Nombre Imagen");
+        jLabel7.setText("Nombre Audio");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setText("Resolución");
+        jLabel8.setText("Duración");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("Categoría");
@@ -224,23 +230,47 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("Descripción");
 
-        DescripcionI.setColumns(20);
-        DescripcionI.setRows(5);
-        DescripcionI.setEnabled(false);
-        jScrollPane3.setViewportView(DescripcionI);
+        DescripcionA.setColumns(20);
+        DescripcionA.setRows(5);
+        DescripcionA.setEnabled(false);
+        jScrollPane3.setViewportView(DescripcionA);
 
-        CategoriaI.setEnabled(false);
+        CategoriaA.setEnabled(false);
 
-        FormatoI.setEnabled(false);
+        FormatoA.setEnabled(false);
 
-        NombreI.setEnabled(false);
+        NombreA.setEnabled(false);
 
-        ResolucionI.setEnabled(false);
+        duracionHoras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        duracionHoras.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        duracionHoras.setText("05");
+        duracionHoras.setEnabled(false);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("Fecha subida");
 
         FechaSubida.setEnabled(false);
+
+        duracionMinutos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        duracionMinutos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        duracionMinutos.setText("05");
+        duracionMinutos.setEnabled(false);
+
+        duracionSegundos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        duracionSegundos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        duracionSegundos.setText("05");
+        duracionSegundos.setEnabled(false);
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel12.setText(":");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel13.setText(":");
+
+        TamanoA.setEnabled(false);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Tamaño");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -252,27 +282,39 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                     .addComponent(jScrollPane3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-                        .addComponent(FormatoI, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                        .addComponent(FormatoA, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(NombreI, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(NombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ResolucionI, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(duracionHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel12)
+                        .addGap(8, 8, 8)
+                        .addComponent(duracionMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel13)
+                        .addGap(8, 8, 8)
+                        .addComponent(duracionSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CategoriaI, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(CategoriaA, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(FechaSubida, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(FechaSubida, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TamanoA, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -281,65 +323,73 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(FormatoI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(FormatoA, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(NombreI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(NombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(ResolucionI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                    .addComponent(duracionHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(duracionMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(duracionSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TamanoA, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(FechaSubida, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(CategoriaI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CategoriaA, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jLabelFoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabelFotoP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabelNombreU.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabelNombreU.setText("Nombre Usuario");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setText("DESCARGAR IMAGEN");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Descargar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Descargar.setText("DESCARGAR AUDIO");
+        Descargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                DescargarActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Buscar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        Buscar.setText("Buscar");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                BuscarActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Regresar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        Regresar.setText("Regresar");
+        Regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                RegresarActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Agregar comentario");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        AgregarComentario.setText("Agregar comentario");
+        AgregarComentario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                AgregarComentarioActionPerformed(evt);
             }
         });
 
-        mostrar.setText("Mostrar imágenes");
+        mostrar.setText("Mostrar audios");
         mostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mostrarActionPerformed(evt);
@@ -461,11 +511,11 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pClave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(Buscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mostrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
+                        .addComponent(Regresar)
                         .addGap(163, 163, 163)
                         .addComponent(Contador, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -476,7 +526,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                         .addComponent(BotonDerecha))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelAudio, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabelPerfilCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -485,14 +535,14 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton6))
+                                        .addComponent(AgregarComentario))
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Descargar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelFotoP, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelNombreU)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -510,8 +560,8 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                     .addComponent(Contador, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelContador)
                     .addComponent(categorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
+                    .addComponent(Buscar)
+                    .addComponent(Regresar)
                     .addComponent(mostrar)
                     .addComponent(pClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
@@ -519,7 +569,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelAudio, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -527,17 +577,18 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(AgregarComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelNombreU))
-                        .addGap(11, 11, 11)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelNombreU)
+                                .addGap(64, 64, 64)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelFotoP, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Descargar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -561,29 +612,13 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void AgregarComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarComentarioActionPerformed
 
         Calendar c1 = Calendar.getInstance();
 
-        ControlComentarioImagen CcomentarioI = new ControlComentarioImagen();
+        ControlComentarioAudio CcomentarioA = new ControlComentarioAudio();
 
-        String PkImagen = "";
-
-        //Condición para saber en que método de búsqueda está. De esa forma, 
-        //Se aplica el comentario a la imagen adecuadamente.
-        if (Pclave.equals("") && categoriaSeleccionada.equals("Categorias")) {
-
-            PkImagen = imagenesGuardadas.get(contador).getIdImagen();
-
-        } else if (!"".equals(Pclave)) {
-
-            PkImagen = ImagenesPalabraBuscar.get(contador).getIdImagen();
-
-        } else if (!"Categorias".equals(categoriaSeleccionada)) {
-
-            PkImagen = imagenesCategoriasBuscar.get(contador).getIdImagen();
-
-        }//Fin if
+        String PkAudio = audiosGuardados.get(contador).getIdContenidoA();
 
         //*************************************************************************************
         //Se obtiene el año, mes y día en el momento en que se crea la cuenta
@@ -612,10 +647,10 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         } else {
 
             //Se crea el objeto comentarioImagen
-            ComentarioImagen CI = new ComentarioImagen(fechaPublicacionC, descripcionComentario);
+            ComentarioAudio CA = new ComentarioAudio(fechaPublicacionC, descripcionComentario);
 
             //*************************************************************************************
-            boolean t = CcomentarioI.InsertarComentario(PkImagen, nombreUsuarioBusquedadI, CI);
+            boolean t = CcomentarioA.InsertarComentario(PkAudio, nombreUsuarioBusquedadA, CA);
 
             if (t) {
 
@@ -626,7 +661,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         }//Fin if principal
 
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_AgregarComentarioActionPerformed
 
     private void BotonDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonDerechaActionPerformed
 
@@ -634,24 +669,24 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         if (Pclave.equals("") && categoriaSeleccionada.equals("Categorias")) {
 
-            if (contador < (imagenesGuardadas.size() - 1)) {
+            if (contador < (audiosGuardados.size() - 1)) {
 
                 contador = 1 + contador;
-                MostrarImagenes();
+                MostrarAudios();
                 BotonIzquierda.setEnabled(true);
 
                 //******************************************************************
-                contadorImagen = 1 + contadorImagen;
-                Contador.setText(String.valueOf(contadorImagen));
+                contadorAudio = 1 + contadorAudio;
+                Contador.setText(String.valueOf(contadorAudio));
 
                 //******************************************************************
-                //Método que actualiza los comentarios de la imagen cada vez que se haga un cambio
+                //Método que actualiza los comentarios del audio cada vez que se haga un cambio
                 //de búsqueda
                 ActualizarComentariosGUI();
 
             } else {
 
-                //Se desactiva el botón derecha cuando se llegue al máximo de imágenes guardadas
+                //Se desactiva el botón derecha cuando se llegue al máximo de audios guardados
                 //en el linkedList
                 BotonDerecha.setEnabled(false);
 
@@ -659,16 +694,16 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         } else if (!"".equals(Pclave)) {
 
-            if (contador < (ImagenesPalabraBuscar.size() - 1)) {
+            if (contador < (audiosPalabraBuscar.size() - 1)) {
 
                 contador = 1 + contador;
-                MostrarImagenesPalabraBusquedad();
+                MostrarAudiosPalabraBusquedad();
                 BotonIzquierda.setEnabled(true);
                 ActualizarComentariosGUIPalabraClave();
 
                 //******************************************************************
-                contadorImagen = 1 + contadorImagen;
-                Contador.setText(String.valueOf(contadorImagen));
+                contadorAudio = 1 + contadorAudio;
+                Contador.setText(String.valueOf(contadorAudio));
 
             } else {
 
@@ -678,16 +713,16 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
-            if (contador < (imagenesCategoriasBuscar.size() - 1)) {
+            if (contador < (audiosCategoriasBuscar.size() - 1)) {
 
                 contador = 1 + contador;
-                MostrarImagenesCategoriaSeleccionada();
+                MostrarAudiosCategoriaSeleccionada();
                 ActualizarComentariosGUICategoriaBusqueda();
                 BotonIzquierda.setEnabled(true);
 
                 //******************************************************************
-                contadorImagen = 1 + contadorImagen;
-                Contador.setText(String.valueOf(contadorImagen));
+                contadorAudio = 1 + contadorAudio;
+                Contador.setText(String.valueOf(contadorAudio));
 
             } else {
 
@@ -708,15 +743,15 @@ public class BusquedaImagenes extends javax.swing.JFrame {
             if (contador > 0) {
 
                 contador = contador - 1;
-                MostrarImagenes();
+                MostrarAudios();
                 BotonDerecha.setEnabled(true);
 
                 //******************************************************************
-                contadorImagen = contadorImagen - 1;
-                Contador.setText(String.valueOf(contadorImagen));
+                contadorAudio = contadorAudio - 1;
+                Contador.setText(String.valueOf(contadorAudio));
 
                 //******************************************************************
-                //Método que actualiza los comentarios de la imagen cada vez que se haga un cambio
+                //Método que actualiza los comentarios del audio cada vez que se haga un cambio
                 //de búsqueda
                 ActualizarComentariosGUI();
 
@@ -732,13 +767,13 @@ public class BusquedaImagenes extends javax.swing.JFrame {
             if (contador > 0) {
 
                 contador = contador - 1;
-                MostrarImagenesPalabraBusquedad();
+                MostrarAudiosPalabraBusquedad();
                 ActualizarComentariosGUIPalabraClave();
                 BotonDerecha.setEnabled(true);
 
                 //******************************************************************
-                contadorImagen = contadorImagen - 1;
-                Contador.setText(String.valueOf(contadorImagen));
+                contadorAudio = contadorAudio - 1;
+                Contador.setText(String.valueOf(contadorAudio));
 
             } else if (contador == 0) {
 
@@ -746,20 +781,18 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
             }//Fin if
 
-        }//Fin if
-
-        if (!"Categorias".equals(categoriaSeleccionada)) {
+        } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
             if (contador > 0) {
 
                 contador = contador - 1;
-                MostrarImagenesCategoriaSeleccionada();
+                MostrarAudiosCategoriaSeleccionada();
                 ActualizarComentariosGUICategoriaBusqueda();
                 BotonDerecha.setEnabled(true);
 
                 //******************************************************************
-                contadorImagen = contadorImagen - 1;
-                Contador.setText(String.valueOf(contadorImagen));
+                contadorAudio = contadorAudio - 1;
+                Contador.setText(String.valueOf(contadorAudio));
 
             } else if (contador == 0) {
 
@@ -771,36 +804,35 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     }//GEN-LAST:event_BotonIzquierdaActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
 
-        GUIprincipal5 = new Principal();
-        GUIprincipal5.setNombreUsuarioPrincipal(nombreUsuarioBusquedadI);
-        GUIprincipal5.show();
+        GUIprincipal10 = new Principal();
+        GUIprincipal10.setNombreUsuarioPrincipal(nombreUsuarioBusquedadA);
+        GUIprincipal10.show();
         this.dispose();
 
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_RegresarActionPerformed
 
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
 
         Pclave = "";
         categoriaSeleccionada = "Categorias";
-        MostrarImagenes();
+        MostrarAudios();
         //Se reinicia las variables que traen los datos de cada imagen que fueron asignados a los linkedList
         contador = 0;
-        contadorImagen = 1;
+        contadorAudio = 1;
 
-        jLabelContador.setText("/" + String.valueOf(imagenesGuardadas.size()));
+        jLabelContador.setText("/" + String.valueOf(audiosGuardados.size()));
         BotonIzquierda.setEnabled(false);
-        Contador.setText(String.valueOf(contadorImagen));
+        Contador.setText(String.valueOf(contadorAudio));
 
         //Se actualizan los botones
         BotonIzquierda.setEnabled(false);
         BotonDerecha.setEnabled(true);
-        mostrar.setEnabled(false);
 
     }//GEN-LAST:event_mostrarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
 
         TextComentario.setEnabled(false);
 
@@ -812,47 +844,38 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Seleccionar un método de búsqueda." + "\n\nMétodos:" + "\n1.Buscar por palabra clave." + "\n2.Buscar por categorías.", "Advertencia", JOptionPane.ERROR_MESSAGE);
 
-        } else if (!"".equals(Pclave) && !"Categorias".equals(categoriaSeleccionada)) {
-
-            JOptionPane.showMessageDialog(null, "Seleccionar un sólo método de búsqueda." + "\n\nMétodos:" + "\n1.Buscar por palabra clave." + "\n2.Buscar por categorías.", "Advertencia", JOptionPane.ERROR_MESSAGE);
-            pClave.setText("");
-            categorias.setSelectedItem("Categorias");
-
         } else {
 
             if (!"".equals(Pclave)) {
 
-                //Es para limpiar el linkedList cada vez que se genere una búsqueda
-                if (ImagenesPalabraBuscar.isEmpty() == false) {
+                if (audiosPalabraBuscar.isEmpty() == false) {
 
-                    ImagenesPalabraBuscar.clear();
+                    audiosPalabraBuscar.clear();
 
                 }//Fin if
 
-                ImagenesPalabraclave();
+                AudiosPalabraclave();
 
-                //Si por medio de la palabra clave ha encontrado resultados, el linkedList se llenará
-                //Si no se llena, se arroja un advertencia donde no se encontro imágenes con esa palabra
-                //Y por ende no ejecuta esta condición
-                //***************************************************************************************************************
-                if (ImagenesPalabraBuscar.isEmpty() == false) {
+                //******************************************************************************************************
+                if (audiosPalabraBuscar.isEmpty() == false) {
 
-                    //Se reinicia las variables que traen los datos de cada imagen que fueron asignados a los linkedList
+                    //Se reinicia las variables que traen los datos de cada video que fueron asignados a los linkedList
                     contador = 0;
-                    contadorImagen = 1;
+                    contadorAudio = 1;
 
-                    MostrarImagenesPalabraBusquedad();
+                    MostrarAudiosPalabraBusquedad();
                     ActualizarComentariosGUIPalabraClave();
 
-                    jLabelContador.setText("/" + String.valueOf(ImagenesPalabraBuscar.size()));
+                    jLabelContador.setText("/" + String.valueOf(audiosPalabraBuscar.size()));
                     BotonIzquierda.setEnabled(false);
-                    Contador.setText(String.valueOf(contadorImagen));
+                    Contador.setText(String.valueOf(contadorAudio));
                     mostrar.setEnabled(true);
 
                     //Se actualizan los botones
                     BotonIzquierda.setEnabled(false);
                     BotonDerecha.setEnabled(true);
 
+                    //Se actualizan las variables
                     categoriaSeleccionada = "Categorias";
                     pClave.setText("");
 
@@ -867,42 +890,45 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
             } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
-                if (imagenesCategoriasBuscar.isEmpty() == false) {
+                if (audiosCategoriasBuscar.isEmpty() == false) {
 
-                    imagenesCategoriasBuscar.clear();
+                    audiosCategoriasBuscar.clear();
 
                 }//Fin if
 
-                ImagenesCategoriaBusquedad();
+                AudiosCategoriaBusquedad();
 
-                //***************************************************************************************************************
-                if (imagenesCategoriasBuscar.isEmpty() == false) {
+                //******************************************************************************************************
+                if (audiosCategoriasBuscar.isEmpty() == false) {
+
                     //Se reinicia las variables que traen los datos de cada imagen que fueron asignados a los linkedList
                     contador = 0;
-                    contadorImagen = 1;
+                    contadorAudio = 1;
 
-                    MostrarImagenesCategoriaSeleccionada();
+                    MostrarAudiosCategoriaSeleccionada();
                     //Es importante invocar el método después de que se reinicie el contador general 
                     //Pues si se coloca antes, tomará el último valor del contador registrado
                     //Generando que salga error con el tamaño de algún linkedList al invocarse
                     //El método de actualizar los comentarios cuando la búsqueda es por categorías
                     ActualizarComentariosGUICategoriaBusqueda();
 
-                    jLabelContador.setText("/" + String.valueOf(imagenesCategoriasBuscar.size()));
+                    jLabelContador.setText("/" + String.valueOf(audiosCategoriasBuscar.size()));
                     BotonIzquierda.setEnabled(false);
-                    Contador.setText(String.valueOf(contadorImagen));
+                    Contador.setText(String.valueOf(contadorAudio));
                     mostrar.setEnabled(true);
 
                     //Se actualizan los botones
                     BotonIzquierda.setEnabled(false);
                     BotonDerecha.setEnabled(true);
 
+                    //Se actualizan las variables
                     Pclave = "";
                     categorias.setSelectedItem("Categorias");
 
                 } else {
 
                     categoriaSeleccionada = "Categorias";
+
                     //Se actualizan las variables
                     Pclave = "";
                     categorias.setSelectedItem("Categorias");
@@ -913,29 +939,29 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         }//Fin if principal
 
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_BuscarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void DescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescargarActionPerformed
 
         if (Pclave.equals("") && categoriaSeleccionada.equals("Categorias")) {
 
-            Descarga(imagenesGuardadas.get(contador).getImagenCuenta(), imagenesGuardadas.get(contador).getNombreImagen());
+            Descarga(audiosGuardados.get(contador).getArchivoAudio(), audiosGuardados.get(contador).getNombreAudio());
 
         } else if (!"".equals(Pclave)) {
 
-            Descarga(ImagenesPalabraBuscar.get(contador).getImagenCuenta(), ImagenesPalabraBuscar.get(contador).getNombreImagen());
+            Descarga(audiosPalabraBuscar.get(contador).getArchivoAudio(), audiosPalabraBuscar.get(contador).getNombreAudio());
 
         } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
-            Descarga(imagenesCategoriasBuscar.get(contador).getImagenCuenta(), imagenesCategoriasBuscar.get(contador).getNombreImagen());
+            Descarga(audiosCategoriasBuscar.get(contador).getArchivoAudio(), audiosCategoriasBuscar.get(contador).getNombreAudio());
 
         }//Fin método
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_DescargarActionPerformed
 
     private void DerechaComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DerechaComentarioActionPerformed
 
-        if (contadorComentario < (comentariosImagenes.size() - 1)) {
+        if (contadorComentario < (comentariosAudios.size() - 1)) {
 
             contadorComentario = 1 + contadorComentario;
             CrearEspaciosComentarios();
@@ -964,7 +990,6 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
             //IzquierdaComentario.setEnabled(false);
         }//Fin if
-
     }//GEN-LAST:event_IzquierdaComentarioActionPerformed
 
     private void editarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarCActionPerformed
@@ -979,7 +1004,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         if (Respuesta == 0) {
 
-            ControlComentarioImagen cCimagen = new ControlComentarioImagen();
+            ControlComentarioAudio cCimagen = new ControlComentarioAudio();
 
             Calendar c1 = Calendar.getInstance();
 
@@ -987,28 +1012,17 @@ public class BusquedaImagenes extends javax.swing.JFrame {
             String Mes = Integer.toString(c1.get(Calendar.MONTH) + 1);
             String Año = Integer.toString(c1.get(Calendar.YEAR));
 
-            //Se obtiene la hora, los minutos y los segundos en el momento en que se inserta el comentario
-            String Hora = Integer.toString(c1.get(Calendar.HOUR));
-            String Minutos = Integer.toString(c1.get(Calendar.MINUTE));
-            String Segundos = Integer.toString(c1.get(Calendar.SECOND));
-
-            if (Segundos.length() == 1) {
-
-                Segundos = "0" + Segundos;
-
-            }//Fin if
-
-            fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
+            fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia;
 
             String actualizarComentario = TextComentario.getText();
 
             //Se actualizar el comentario también en el linkedList
-            comentariosImagenes.get(contadorComentario).setDescrpcionImagen(actualizarComentario);
-            comentariosImagenes.get(contadorComentario).setFechaPublicacion(fechaPublicacionC);
+            comentariosAudios.get(contadorComentario).setDescripcionComentario(actualizarComentario);
+            comentariosAudios.get(contadorComentario).setFechaPublicacion(fechaPublicacionC + " 00:00:00");
 
-            ComentarioImagen Cimagen = new ComentarioImagen(fechaPublicacionC, actualizarComentario);
+            ComentarioAudio Caudio = new ComentarioAudio(fechaPublicacionC, actualizarComentario);
 
-            boolean t = cCimagen.ModificarComentario(comentariosImagenes.get(contadorComentario).getIdComentario(), Cimagen);
+            boolean t = cCimagen.ModificarComentario(comentariosAudios.get(contadorComentario).getIdComentario(), Caudio);
 
             if (t) {
 
@@ -1026,15 +1040,15 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         if (Respuesta == 0) {
 
-            ControlComentarioImagen cCimagen = new ControlComentarioImagen();
+            ControlComentarioAudio cCaudio = new ControlComentarioAudio();
 
-            boolean t = cCimagen.EliminarComentario(comentariosImagenes.get(contadorComentario).getIdComentario(), nombreUsuarioBusquedadI);
+            boolean t = cCaudio.EliminarComentario(comentariosAudios.get(contadorComentario).getIdComentario(), nombreUsuarioBusquedadA);
 
             if (t) {
 
                 JOptionPane.showMessageDialog(null, "Comentario eliminado.");
                 //Al momento de removerse el comentario en la BD también se remueve el objeto guardado en el linkedList
-                comentariosImagenes.remove(contadorComentario);
+                comentariosAudios.remove(contadorComentario);
                 TextComentario.setText("");
                 jLabelFotoC.setIcon(null);
                 NUsuario.setText("");
@@ -1063,124 +1077,148 @@ public class BusquedaImagenes extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BusquedaImagenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaAudios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BusquedaImagenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaAudios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BusquedaImagenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaAudios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BusquedaImagenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaAudios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BusquedaImagenes().setVisible(true);
+                new BusquedaAudios().setVisible(true);
             }
         });
     }
 
-    public void TraerImagenes() {
+    public void TraerAudios() {
 
-        ControlImagen CI = new ControlImagen();
+        ControlAudio CA = new ControlAudio();
 
-        //Devuelve un linkelist donde se encuentra guardado todos los datos de las imágenes de varias cuentas
-        imagenesGuardadas = CI.BuscarImagenesGuardadas();
+        //Devuelve un linkelist donde se encuentra guardado todos los datos de los audios de varias cuentas
+        audiosGuardados = CA.BuscarAudiosGuardados();
 
     }//Fin método
 
-    public void MostrarImagenes() {
+    public void MostrarAudios() {
 
-        FormatoI.setText(imagenesGuardadas.get(contador).getFormato_Imagen());
-        NombreI.setText(imagenesGuardadas.get(contador).getNombreImagen());
-        ResolucionI.setText(imagenesGuardadas.get(contador).getResolucion());
-        CategoriaI.setText(imagenesGuardadas.get(contador).getCategoriaImagen());
-        DescripcionI.setText(imagenesGuardadas.get(contador).getDescripcionImagen());
-        FechaSubida.setText(imagenesGuardadas.get(contador).getFechaSubidaI());
+        FormatoA.setText(audiosGuardados.get(contador).getFormato_Audio());
+        NombreA.setText(audiosGuardados.get(contador).getNombreAudio());
+        String duracion = audiosGuardados.get(contador).getDuracionAudio();
+        String[] DuracionTotal = duracion.split(":");
 
-        jLabelNombreU.setText(imagenesGuardadas.get(contador).getNombreUsuario());
+        duracionHoras.setText(DuracionTotal[0]);
+        duracionMinutos.setText(DuracionTotal[1]);
+        duracionSegundos.setText(DuracionTotal[2]);
+
+        CategoriaA.setText(audiosGuardados.get(contador).getCategoriaAudio());
+        DescripcionA.setText(audiosGuardados.get(contador).getDescripcionAudio());
+        FechaSubida.setText(audiosGuardados.get(contador).getFechaSubidaA());
+        TamanoA.setText(audiosGuardados.get(contador).getTamanoAudio());
+
+        jLabelNombreU.setText(audiosGuardados.get(contador).getNombreUsuarioPK());
+
+        ImageIcon icon = new ImageIcon(BusquedaAudios.class.getResource("/Imagenes/audio.png"));
+        ImageIcon icon3 = new ImageIcon(audiosGuardados.get(contador).getImagenUsuario());
+
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelAudio.getWidth(), jLabelAudio.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(jLabelFotoP.getWidth(), jLabelFotoP.getHeight(), Image.SCALE_DEFAULT));
+
+        jLabelAudio.setIcon(icono);
+        jLabelFotoP.setIcon(icono3);
+
+    }//Fin método
+
+    public void MostrarAudiosPalabraBusquedad() {
+
+        FormatoA.setText(audiosPalabraBuscar.get(contador).getFormato_Audio());
+        NombreA.setText(audiosPalabraBuscar.get(contador).getNombreAudio());
+
+        String duracion = audiosGuardados.get(contador).getDuracionAudio();
+        String[] DuracionTotal = duracion.split(":");
+
+        duracionHoras.setText(DuracionTotal[0]);
+        duracionMinutos.setText(DuracionTotal[1]);
+        duracionSegundos.setText(DuracionTotal[2]);
+
+        CategoriaA.setText(audiosPalabraBuscar.get(contador).getCategoriaAudio());
+        DescripcionA.setText(audiosPalabraBuscar.get(contador).getDescripcionAudio());
+        FechaSubida.setText(audiosPalabraBuscar.get(contador).getFechaSubidaA());
+        TamanoA.setText(audiosPalabraBuscar.get(contador).getTamanoAudio());
+
+        jLabelNombreU.setText(audiosPalabraBuscar.get(contador).getNombreUsuarioPK());
 
         //Se pasa la imagen que está en un arreglo de byte para convertirlo en un icono
-        ImageIcon icon = new ImageIcon(imagenesGuardadas.get(contador).getImagenCuenta());
-
-        ImageIcon icon2 = new ImageIcon(imagenesGuardadas.get(contador).getImagenUsuario());
+        ImageIcon icon = new ImageIcon(BusquedaAudios.class.getResource("/Imagenes/audio.png"));
+        ImageIcon icon2 = new ImageIcon(audiosPalabraBuscar.get(contador).getImagenUsuario());
 
         //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
-        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_DEFAULT));
-        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFoto.getWidth(), jLabelFoto.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelAudio.getWidth(), jLabelAudio.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFotoP.getWidth(), jLabelFotoP.getHeight(), Image.SCALE_DEFAULT));
 
         //Se coloca la imagen con el tamaño que tiene en el label
-        jLabelImagen.setIcon(icono);
-        jLabelFoto.setIcon(icono2);
+        jLabelAudio.setIcon(icono);
+        jLabelFotoP.setIcon(icono2);
 
     }//Fin método
 
-    public void MostrarImagenesPalabraBusquedad() {
+    public void MostrarAudiosCategoriaSeleccionada() {
 
-        FormatoI.setText(ImagenesPalabraBuscar.get(contador).getFormato_Imagen());
-        NombreI.setText(ImagenesPalabraBuscar.get(contador).getNombreImagen());
-        ResolucionI.setText(ImagenesPalabraBuscar.get(contador).getResolucion());
-        CategoriaI.setText(ImagenesPalabraBuscar.get(contador).getCategoriaImagen());
-        DescripcionI.setText(ImagenesPalabraBuscar.get(contador).getDescripcionImagen());
-        FechaSubida.setText(ImagenesPalabraBuscar.get(contador).getFechaSubidaI());
+        FormatoA.setText(audiosCategoriasBuscar.get(contador).getFormato_Audio());
+        NombreA.setText(audiosCategoriasBuscar.get(contador).getNombreAudio());
 
-        jLabelNombreU.setText(ImagenesPalabraBuscar.get(contador).getNombreUsuario());
+        String duracion = audiosGuardados.get(contador).getDuracionAudio();
+        String[] DuracionTotal = duracion.split(":");
+
+        duracionHoras.setText(DuracionTotal[0]);
+        duracionMinutos.setText(DuracionTotal[1]);
+        duracionSegundos.setText(DuracionTotal[2]);
+
+        CategoriaA.setText(audiosCategoriasBuscar.get(contador).getCategoriaAudio());
+        DescripcionA.setText(audiosCategoriasBuscar.get(contador).getDescripcionAudio());
+        FechaSubida.setText(audiosCategoriasBuscar.get(contador).getFechaSubidaA());
+        TamanoA.setText(audiosCategoriasBuscar.get(contador).getTamanoAudio());
+
+        jLabelNombreU.setText(audiosCategoriasBuscar.get(contador).getNombreUsuarioPK());
 
         //Se pasa la imagen que está en un arreglo de byte para convertirlo en un icono
-        ImageIcon icon = new ImageIcon(ImagenesPalabraBuscar.get(contador).getImagenCuenta());
-
-        ImageIcon icon2 = new ImageIcon(ImagenesPalabraBuscar.get(contador).getImagenUsuario());
+        ImageIcon icon = new ImageIcon(BusquedaAudios.class.getResource("/Imagenes/audio.png"));
+        ImageIcon iconUsuario = new ImageIcon(audiosCategoriasBuscar.get(contador).getImagenUsuario());
 
         //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
-        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_DEFAULT));
-        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFoto.getWidth(), jLabelFoto.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelAudio.getWidth(), jLabelAudio.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono2 = new ImageIcon(iconUsuario.getImage().getScaledInstance(jLabelFotoP.getWidth(), jLabelFotoP.getHeight(), Image.SCALE_DEFAULT));
 
         //Se coloca la imagen con el tamaño que tiene en el label
-        jLabelImagen.setIcon(icono);
-        jLabelFoto.setIcon(icono2);
+        jLabelAudio.setIcon(icono);
+        jLabelFotoP.setIcon(icono2);
 
     }//Fin método
 
-    public void MostrarImagenesCategoriaSeleccionada() {
+    public void AudiosPalabraclave() {
 
-        FormatoI.setText(imagenesCategoriasBuscar.get(contador).getFormato_Imagen());
-        NombreI.setText(imagenesCategoriasBuscar.get(contador).getNombreImagen());
-        ResolucionI.setText(imagenesCategoriasBuscar.get(contador).getResolucion());
-        CategoriaI.setText(imagenesCategoriasBuscar.get(contador).getCategoriaImagen());
-        DescripcionI.setText(imagenesCategoriasBuscar.get(contador).getDescripcionImagen());
-        FechaSubida.setText(imagenesCategoriasBuscar.get(contador).getFechaSubidaI());
+        for (int i = 0; i < audiosGuardados.size(); i++) {
 
-        jLabelNombreU.setText(imagenesCategoriasBuscar.get(contador).getNombreUsuario());
+            if (audiosGuardados.get(i).getDescripcionAudio().contains(Pclave)) {
 
-        //Se pasa la imagen que está en un arreglo de byte para convertirlo en un icono
-        ImageIcon icon = new ImageIcon(imagenesCategoriasBuscar.get(contador).getImagenCuenta());
-
-        ImageIcon icon2 = new ImageIcon(imagenesCategoriasBuscar.get(contador).getImagenUsuario());
-
-        //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
-        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_DEFAULT));
-        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFoto.getWidth(), jLabelFoto.getHeight(), Image.SCALE_DEFAULT));
-
-        //Se coloca la imagen con el tamaño que tiene en el label
-        jLabelImagen.setIcon(icono);
-        jLabelFoto.setIcon(icono2);
-
-    }//Fin método
-
-    public void ImagenesPalabraclave() {
-
-        for (int i = 0; i < imagenesGuardadas.size(); i++) {
-
-            if (imagenesGuardadas.get(i).getDescripcionImagen().contains(Pclave)) {
-
-                ImagenesPalabraBuscar.add(imagenesGuardadas.get(i));
+                audiosPalabraBuscar.add(audiosGuardados.get(i));
 
             }//Fin if
 
         }//Fin for
 
-        if (ImagenesPalabraBuscar.isEmpty()) {
+        if (audiosPalabraBuscar.isEmpty()) {
 
             JOptionPane.showMessageDialog(null, "Lo sentimos, no hay aciertos.", "Advertencia", JOptionPane.ERROR_MESSAGE);
 
@@ -1188,23 +1226,17 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     }//Fin método
 
-    public void ImagenesCategoriaBusquedad() {
+    public void AudiosCategoriaBusquedad() {
 
-        for (int i = 0; i < imagenesGuardadas.size(); i++) {
+        for (int i = 0; i < audiosGuardados.size(); i++) {
 
-            if (imagenesGuardadas.get(i).getCategoriaImagen().equals(categoriaSeleccionada)) {
+            if (audiosGuardados.get(i).getCategoriaAudio().equals(categoriaSeleccionada)) {
 
-                imagenesCategoriasBuscar.add(imagenesGuardadas.get(i));
+                audiosCategoriasBuscar.add(audiosGuardados.get(i));
 
             }//Fin if
 
         }//Fin for
-
-        if (imagenesCategoriasBuscar.isEmpty()) {
-
-            JOptionPane.showMessageDialog(null, "Lo sentimos, no hay aciertos.", "Advertencia", JOptionPane.ERROR_MESSAGE);
-
-        }//Fin if
 
     }//Fin método
 
@@ -1213,11 +1245,11 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         //Se trae todas las categorías pertenecientes a la BD
         ControlCategoria CC2 = new ControlCategoria();
 
-        categoriasImagenes = CC2.LeerCategorias();
+        categoriasAudios = CC2.LeerCategorias();
 
-        for (int i = 0; i < categoriasImagenes.size(); i++) {
+        for (int i = 0; i < categoriasAudios.size(); i++) {
 
-            categorias.addItem(categoriasImagenes.get(i).getNombreCategoria());
+            categorias.addItem(categoriasAudios.get(i).getNombreCategoria());
 
         }//Fin for
 
@@ -1229,7 +1261,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         ControlCuenta Ccuenta = new ControlCuenta();
 
-        cUsuario = Ccuenta.LeerCuenta(nombreUsuarioBusquedadI);
+        cUsuario = Ccuenta.LeerCuenta(nombreUsuarioBusquedadA);
 
         byte[] img = cUsuario.getFotoPerfil();
 
@@ -1245,11 +1277,11 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     public void CrearEspaciosComentarios() {
 
-        TextComentario.setText(comentariosImagenes.get(contadorComentario).getDescrpcionImagen());
-        fPublicacion.setText(comentariosImagenes.get(contadorComentario).getFechaPublicacion());
-        NUsuario.setText(comentariosImagenes.get(contadorComentario).getNombreUsuarioComentario());
+        TextComentario.setText(comentariosAudios.get(contadorComentario).getDescripcionComentario());
+        fPublicacion.setText(comentariosAudios.get(contadorComentario).getFechaPublicacion());
+        NUsuario.setText(comentariosAudios.get(contadorComentario).getNombreUsuarioComentario());
 
-        ImageIcon icon2 = new ImageIcon(comentariosImagenes.get(contadorComentario).getFotoUsuarioComentario());
+        ImageIcon icon2 = new ImageIcon(comentariosAudios.get(contadorComentario).getFotoUsuarioComentario());
 
         //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
         Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFotoC.getWidth(), jLabelFotoC.getHeight(), Image.SCALE_DEFAULT));
@@ -1264,9 +1296,9 @@ public class BusquedaImagenes extends javax.swing.JFrame {
     //Trae los comentarios dependiendo de la imagen que esté observando el usuario
     public void traerComentarios(String IdContenido) {
 
-        ControlComentarioImagen CcomentarioI = new ControlComentarioImagen();
+        ControlComentarioAudio CcomentarioA = new ControlComentarioAudio();
 
-        comentariosImagenes = CcomentarioI.TraerComentarios(IdContenido);
+        comentariosAudios = CcomentarioA.TraerComentarios(IdContenido);
 
     }//Fin método
 
@@ -1287,16 +1319,16 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         //Borra todos los comentarios que hay en el linkedList
         //Cada vez que se cambia para buscar otra imagen
         //Siempre y cuando este linkedList tenga datos guardados
-        if (comentariosImagenes.isEmpty() == false) {
+        if (comentariosAudios.isEmpty() == false) {
 
             //Se limpia el anterior LinkedList que contenía comentarios de otra imagen
-            comentariosImagenes.clear();
+            comentariosAudios.clear();
             LimpiarCamposComentarios();
 
             //Se vuelve a llamar para traer los comentarios de la imagen actual
-            traerComentarios(imagenesGuardadas.get(contador).getIdImagen());
+            traerComentarios(audiosGuardados.get(contador).getIdContenidoA());
 
-            if (comentariosImagenes.isEmpty() == false) {
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
 
@@ -1305,9 +1337,9 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         } else {
 
             //Se vuelve a llamar para traer los comentarios de la imagen actual
-            traerComentarios(imagenesGuardadas.get(contador).getIdImagen());
+            traerComentarios(audiosGuardados.get(contador).getIdContenidoA());
 
-            if (comentariosImagenes.isEmpty() == false) {
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
 
@@ -1320,18 +1352,18 @@ public class BusquedaImagenes extends javax.swing.JFrame {
     public void ActualizarComentariosGUIPalabraClave() {
 
         //Borra todos los comentarios que hay en el linkedList
-        //Cada vez que se cambia para buscar otra imagen
+        //Cada vez que se cambia para buscar otro video
         //Siempre y cuando este linkedList tenga datos guardados
-        if (comentariosImagenes.isEmpty() == false) {
+        if (comentariosAudios.isEmpty() == false) {
 
-            //Se limpia el anterior LinkedList que contenía comentarios de otra imagen
-            comentariosImagenes.clear();
+            //Se limpia el anterior LinkedList que contenía comentarios de otro video
+            comentariosAudios.clear();
             LimpiarCamposComentarios();
 
-            //Se vuelve a llamar para traer los comentarios de la imagen actual
-            traerComentarios(ImagenesPalabraBuscar.get(contador).getIdImagen());
+            //Se vuelve a llamar para traer los comentarios del video actual
+            traerComentarios(audiosPalabraBuscar.get(contador).getIdContenidoA());
 
-            if (comentariosImagenes.isEmpty() == false) {
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
 
@@ -1339,10 +1371,10 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         } else {
 
-            //Se vuelve a llamar para traer los comentarios de la imagen actual
-            traerComentarios(ImagenesPalabraBuscar.get(contador).getIdImagen());
+            //Se vuelve a llamar para traer los comentarios del video actual
+            traerComentarios(audiosPalabraBuscar.get(contador).getIdContenidoA());
 
-            if (comentariosImagenes.isEmpty() == false) {
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
 
@@ -1355,18 +1387,18 @@ public class BusquedaImagenes extends javax.swing.JFrame {
     public void ActualizarComentariosGUICategoriaBusqueda() {
 
         //Borra todos los comentarios que hay en el linkedList
-        //Cada vez que se cambia para buscar otra imagen
+        //Cada vez que se cambia para buscar otro video
         //Siempre y cuando este linkedList tenga datos guardados
-        if (comentariosImagenes.isEmpty() == false) {
+        if (comentariosAudios.isEmpty() == false) {
 
-            //Se limpia el anterior LinkedList que contenía comentarios de otra imagen
-            comentariosImagenes.clear();
+            //Se limpia el anterior LinkedList que contenía comentarios de otro video
+            comentariosAudios.clear();
             LimpiarCamposComentarios();
 
-            //Se vuelve a llamar para traer los comentarios de la imagen actual
-            traerComentarios(imagenesCategoriasBuscar.get(contador).getIdImagen());
+            //Se vuelve a llamar para traer los comentarios del video actual
+            traerComentarios(audiosCategoriasBuscar.get(contador).getIdContenidoA());
 
-            if (comentariosImagenes.isEmpty() == false) {
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
 
@@ -1374,10 +1406,10 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         } else {
 
-            //Se vuelve a llamar para traer los comentarios de la imagen actual
-            traerComentarios(imagenesCategoriasBuscar.get(contador).getIdImagen());
+            //Se vuelve a llamar para traer los comentarios del video actual
+            traerComentarios(audiosCategoriasBuscar.get(contador).getIdContenidoA());
 
-            if (comentariosImagenes.isEmpty() == false) {
+            if (comentariosAudios.isEmpty() == false) {
 
                 CrearEspaciosComentarios();
 
@@ -1391,9 +1423,9 @@ public class BusquedaImagenes extends javax.swing.JFrame {
     //Siempre y cuando los comentarios pertenezcan al usuario correspondiente
     public void ValidarBotonesComentario() {
 
-        String nombreU = comentariosImagenes.get(contadorComentario).getNombreUsuarioComentario();
+        String nombreU = comentariosAudios.get(contadorComentario).getNombreUsuarioComentario();
 
-        if (nombreU.equals(nombreUsuarioBusquedadI)) {
+        if (nombreU.equals(nombreUsuarioBusquedadA)) {
 
             editarC.setEnabled(true);
             eliminarC.setEnabled(true);
@@ -1409,14 +1441,14 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     }//Fin método
 
-    public boolean DescargaImagenRuta(File archivo, byte[] imagen) {
+    public boolean DescargaAudioRuta(File archivo, byte[] audio) {
 
         boolean mensaje = false;
 
         try {
 
             salida = new FileOutputStream(archivo);
-            salida.write(imagen);
+            salida.write(audio);
 
             mensaje = true;
 
@@ -1430,28 +1462,27 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     }//Fin método
 
-    public void Descarga(byte[] imagenes, String NombreImagen) {
+    public void Descarga(byte[] audios, String NombreAudio) {
 
         String barra = File.separator;
-        //Se establece la ruta desde la cuenta usuario del ordenador. Después, el escritorio, y por último, guarda en la carpeta imágenes.
-        //String ubicacion = System.getProperty("user.home") + barra + "Desktop" + barra + "ImagenesDescarga" + barra;
+        //Se establece la ruta desde la cuenta usuario del ordenador. Después guarda en la carpeta Videos.
         String ubicacion = System.getProperty("user.home") + barra + "Downloads" + barra;
 
         //El contador es para cambiar el nombre de la imagen cuando sea descargado
         //Pues si no se cambia y el usuario descargar la imagen varias veces
-        //Entonces el sistema pedirá al sistema que ya se encuentra una imagen guardad con ese nombre
+        //Entonces el sistema pedirá al sistema que ya se encuentra un video guardado con ese nombre
         contadorDescarga = 1 + contadorDescarga;
 
         String valor = Integer.toString(contadorDescarga);
 
-        //Se establece la ruta donde se guardará la imagen
-        File archivo2 = new File(ubicacion + NombreImagen + " (" + valor + ")" + ".jpg");
+        //Se establece la ruta donde se guardará el video
+        File archivo2 = new File(ubicacion + NombreAudio + " (" + valor + ")" + ".mp3");
 
-        boolean respuesta = DescargaImagenRuta(archivo2, imagenes);
+        boolean respuesta = DescargaAudioRuta(archivo2, audios);
 
         if (respuesta) {
 
-            JOptionPane.showMessageDialog(null, "Imagen descargada exitosamente.");
+            JOptionPane.showMessageDialog(null, "Audio descargado exitosamente.");
 
         } else {
 
@@ -1463,40 +1494,46 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AgregarComentario;
     private javax.swing.JButton BotonDerecha;
     private javax.swing.JButton BotonIzquierda;
-    private javax.swing.JTextField CategoriaI;
+    private javax.swing.JButton Buscar;
+    private javax.swing.JTextField CategoriaA;
     private javax.swing.JTextField Contador;
     private javax.swing.JButton DerechaComentario;
-    private javax.swing.JTextArea DescripcionI;
+    private javax.swing.JButton Descargar;
+    private javax.swing.JTextArea DescripcionA;
     private javax.swing.JTextField FechaSubida;
-    private javax.swing.JTextField FormatoI;
+    private javax.swing.JTextField FormatoA;
     private javax.swing.JButton IzquierdaComentario;
     private javax.swing.JLabel NUsuario;
-    private javax.swing.JTextField NombreI;
-    private javax.swing.JTextField ResolucionI;
+    private javax.swing.JTextField NombreA;
+    private javax.swing.JButton Regresar;
+    private javax.swing.JTextField TamanoA;
     private javax.swing.JTextArea TextComentario;
     private javax.swing.JComboBox<String> categorias;
     private javax.swing.JTextArea comentario;
+    private javax.swing.JTextField duracionHoras;
+    private javax.swing.JTextField duracionMinutos;
+    private javax.swing.JTextField duracionSegundos;
     private javax.swing.JButton editarC;
     private javax.swing.JButton eliminarC;
     private javax.swing.JLabel fPublicacion;
     private javax.swing.JButton guardarC;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAudio;
     private javax.swing.JLabel jLabelContador;
-    private javax.swing.JLabel jLabelFoto;
     private javax.swing.JLabel jLabelFotoC;
-    private javax.swing.JLabel jLabelImagen;
+    private javax.swing.JLabel jLabelFotoP;
     private javax.swing.JLabel jLabelNombreU;
     private javax.swing.JLabel jLabelPerfilCuenta;
     private javax.swing.JPanel jPanel1;
