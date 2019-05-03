@@ -24,7 +24,7 @@ public class Cuenta extends javax.swing.JFrame {
      * Creates new form Cuenta
      */
     public Cuenta() {
-        
+
         initComponents();
         this.setLocationRelativeTo(this);
 
@@ -126,7 +126,7 @@ public class Cuenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
+
         GUIregistro = new Registro();
         GUIregistro.show();
         this.dispose();
@@ -140,37 +140,47 @@ public class Cuenta extends javax.swing.JFrame {
         String NombreUsuario = nombreUsuario.getText();
         String Contraseña = contraseña.getText();
 
-        ControlCuenta c1 = new ControlCuenta();
-
-        CuentaUsuario cUsuario = c1.LeerCuenta(NombreUsuario);
-
-        if (cUsuario != null) {
-
-            String nombreUsuarioRegistro = cUsuario.getNombreUsuario();
-            String ContraseñaRegistro = cUsuario.getContrasena();
-
-            if (NombreUsuario.equals(nombreUsuarioRegistro) && Contraseña.equals(ContraseñaRegistro)) {
-
-                principal = new Principal();
-                principal.NombreUsuarioPrincipal = NombreUsuario;
-                principal.show();
-                this.dispose();
-               
-                //principal.setNombreUsuarioPrincipal(nombreUsuarioRegistro);
-
-            } else {
-
-                JOptionPane.showMessageDialog(null, "Cuenta no registrada o datos mal ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
-
-            }//Fin segundo if
-
-        } else if (NombreUsuario.equals("Admin") && Contraseña.equals("Admin")) {
+        if (NombreUsuario.equals("Admin") && Contraseña.equals("Admin")) {
 
             GUIAdministrador = new Administrador();
             GUIAdministrador.show();
             this.dispose();
 
-        }//Fin if
+        } else {
+
+            ControlCuenta c1 = new ControlCuenta();
+
+            CuentaUsuario cUsuario = c1.LeerCuenta(NombreUsuario);
+
+            if (cUsuario != null) {
+
+                String nombreUsuarioRegistro = cUsuario.getNombreUsuario();
+                String ContraseñaRegistro = cUsuario.getContrasena();
+
+                if (NombreUsuario.equals(nombreUsuarioRegistro) && Contraseña.equals(ContraseñaRegistro)) {
+
+                    principal = new Principal();
+                    principal.NombreUsuarioPrincipal = NombreUsuario;
+                    principal.show();
+                    this.dispose();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Cuenta no registrada o datos mal ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+                    nombreUsuario.setText("");
+                    contraseña.setText("");
+
+                }//Fin segundo if
+
+            } else if (cUsuario == null) {
+
+                JOptionPane.showMessageDialog(null, "Cuenta no registrada o datos mal ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+                nombreUsuario.setText("");
+                contraseña.setText("");
+
+            }//Fin if cUsuario != null
+
+        }//Fin if principal
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
