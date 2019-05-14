@@ -907,7 +907,7 @@ public class DatosAudio extends javax.swing.JFrame {
 
     public void activarCampos() {
 
-        formatoAudio.setEnabled(true);
+        //formatoAudio.setEnabled(true);
         nombreAudio.setEnabled(true);
         categorias.setEnabled(true);
         TamanoAudio.setEnabled(true);
@@ -921,7 +921,7 @@ public class DatosAudio extends javax.swing.JFrame {
 
     public void desactivarCampos() {
 
-        formatoAudio.setEnabled(false);
+        //formatoAudio.setEnabled(false);
         nombreAudio.setEnabled(false);
         categorias.setEnabled(false);
         TamanoAudio.setEnabled(false);

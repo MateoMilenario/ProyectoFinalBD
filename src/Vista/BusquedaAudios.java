@@ -945,15 +945,15 @@ public class BusquedaAudios extends javax.swing.JFrame {
 
         if (Pclave.equals("") && categoriaSeleccionada.equals("Categorias")) {
 
-            Descarga(audiosGuardados.get(contador).getArchivoAudio(), audiosGuardados.get(contador).getNombreAudio());
+            Descarga(audiosGuardados.get(contador).getArchivoAudio(), audiosGuardados.get(contador).getNombreAudio(), audiosGuardados.get(contador).getFormato_Audio());
 
         } else if (!"".equals(Pclave)) {
 
-            Descarga(audiosPalabraBuscar.get(contador).getArchivoAudio(), audiosPalabraBuscar.get(contador).getNombreAudio());
+            Descarga(audiosPalabraBuscar.get(contador).getArchivoAudio(), audiosPalabraBuscar.get(contador).getNombreAudio(), audiosPalabraBuscar.get(contador).getFormato_Audio());
 
         } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
-            Descarga(audiosCategoriasBuscar.get(contador).getArchivoAudio(), audiosCategoriasBuscar.get(contador).getNombreAudio());
+            Descarga(audiosCategoriasBuscar.get(contador).getArchivoAudio(), audiosCategoriasBuscar.get(contador).getNombreAudio(), audiosCategoriasBuscar.get(contador).getFormato_Audio());
 
         }//Fin método
 
@@ -1462,7 +1462,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
 
     }//Fin método
 
-    public void Descarga(byte[] audios, String NombreAudio) {
+    public void Descarga(byte[] audios, String NombreAudio, String Formato) {
 
         String barra = File.separator;
         //Se establece la ruta desde la cuenta usuario del ordenador. Después guarda en la carpeta Videos.
@@ -1476,7 +1476,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
         String valor = Integer.toString(contadorDescarga);
 
         //Se establece la ruta donde se guardará el video
-        File archivo2 = new File(ubicacion + NombreAudio + " (" + valor + ")" + ".mp3");
+        File archivo2 = new File(ubicacion + NombreAudio + " (" + valor + ")" + "." + Formato.toLowerCase());
 
         boolean respuesta = DescargaAudioRuta(archivo2, audios);
 
@@ -1486,7 +1486,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
 
         } else {
 
-            JOptionPane.showMessageDialog(null, "Fallo en la descarga. ", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Fallo en la descarga.", "Error", JOptionPane.ERROR_MESSAGE);
 
         }//Fin if
 

@@ -896,7 +896,7 @@ public class DatosVideo extends javax.swing.JFrame {
     public void activarCampos() {
 
         nombreVideo.setEnabled(true);
-        formatoVideo.setEnabled(true);
+        //formatoVideo.setEnabled(true);
         categorias.setEnabled(true);
         duracionHoras.setEnabled(true);
         duracionMinutos.setEnabled(true);
@@ -909,7 +909,7 @@ public class DatosVideo extends javax.swing.JFrame {
     public void desactivarCampos() {
 
         nombreVideo.setEnabled(false);
-        formatoVideo.setEnabled(false);
+        //formatoVideo.setEnabled(false);
         categorias.setEnabled(false);
         duracionHoras.setEnabled(false);
         duracionMinutos.setEnabled(false);

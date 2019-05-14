@@ -47,6 +47,7 @@ public class AgregarAudio extends javax.swing.JFrame {
     String duracionSegundos;
     String duracionMinutos;
     String duracionHoras;
+    String FormatoAudio;
 
     public AgregarAudio() {
         initComponents();
@@ -64,6 +65,7 @@ public class AgregarAudio extends javax.swing.JFrame {
         AgregarAudio.setEnabled(false);
 
         categorias = new LinkedList<>();
+        formatoAudio.setEnabled(false);
 
         ImagenInicial();
         TraerCategorias();
@@ -510,6 +512,16 @@ public class AgregarAudio extends javax.swing.JFrame {
                 //El endsWith especifica si la cadena que compone el archivo imagen termina en mp4 o mov para ser verificada.
                 if (archivo.getName().endsWith("mp3") || archivo.getName().endsWith("wav")) {
 
+                    if (archivo.getName().endsWith("mp3")) {
+
+                        FormatoAudio = "MP3";
+
+                    } else if (archivo.getName().endsWith("wav")) {
+
+                        FormatoAudio = "WAV";
+
+                    }//Fin condición
+
                     JOptionPane.showMessageDialog(null, "Archivo de audio seleccionado.");
                     jLabelEstado.setText("Estado archivo: subido");
 
@@ -530,7 +542,8 @@ public class AgregarAudio extends javax.swing.JFrame {
 
         //***************************************************************************************************************************************************************
         NombreAudio = nombreAudio.getText();
-        Formato = formatoAudio.getSelectedItem().toString();
+        //Formato = formatoAudio.getSelectedItem().toString();
+        Formato = FormatoAudio;
         Tamano = TamanoAudio.getText();
 
         duracionSegundos = duracionSegundosA.getText();
@@ -595,11 +608,10 @@ public class AgregarAudio extends javax.swing.JFrame {
         FechaSubido = Año2.substring(2, 4) + "-0" + Mes2 + "-" + Dia2 + " " + Hora + ":" + Minutos + ":" + Segundos;
 
         //**********************************************************************
-        
         boolean Ejecutar = ValidarCamposGui();
-        
+
         if (Ejecutar) {
-            
+
             //Variable que guadará el pk de categoría proveniente del método pkCategoriaImagen
             pkCategoria = PKcategoriaAudio();
 
@@ -615,7 +627,7 @@ public class AgregarAudio extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Datos del audio guardados.");
 
                 nombreAudio.setText("");
-                formatoAudio.setSelectedItem("------------------------------------");
+                //formatoAudio.setSelectedItem("------------------------------------");
                 duracionHorasA.setText("00");
                 duracionMinutosA.setText("00");
                 duracionSegundosA.setText("00");
@@ -850,7 +862,13 @@ public class AgregarAudio extends javax.swing.JFrame {
 
         }//Fin if
 
-        if (Formato.equals("------------------------------------")) {
+//        if (Formato.equals("------------------------------------")) {
+//
+//            JOptionPane.showMessageDialog(null, "Formato del audio faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+//            t = false;
+//
+//        }//Fin if
+        if (Formato == null) {
 
             JOptionPane.showMessageDialog(null, "Formato del audio faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             t = false;

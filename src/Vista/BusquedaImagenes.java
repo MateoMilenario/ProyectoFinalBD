@@ -117,7 +117,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
     public BusquedaImagenes() {
         initComponents();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -919,15 +919,15 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         if (Pclave.equals("") && categoriaSeleccionada.equals("Categorias")) {
 
-            Descarga(imagenesGuardadas.get(contador).getImagenCuenta(), imagenesGuardadas.get(contador).getNombreImagen());
+            Descarga(imagenesGuardadas.get(contador).getImagenCuenta(), imagenesGuardadas.get(contador).getNombreImagen(), imagenesGuardadas.get(contador).getFormato_Imagen());
 
         } else if (!"".equals(Pclave)) {
 
-            Descarga(ImagenesPalabraBuscar.get(contador).getImagenCuenta(), ImagenesPalabraBuscar.get(contador).getNombreImagen());
+            Descarga(ImagenesPalabraBuscar.get(contador).getImagenCuenta(), ImagenesPalabraBuscar.get(contador).getNombreImagen(), ImagenesPalabraBuscar.get(contador).getFormato_Imagen());
 
         } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
-            Descarga(imagenesCategoriasBuscar.get(contador).getImagenCuenta(), imagenesCategoriasBuscar.get(contador).getNombreImagen());
+            Descarga(imagenesCategoriasBuscar.get(contador).getImagenCuenta(), imagenesCategoriasBuscar.get(contador).getNombreImagen(), imagenesCategoriasBuscar.get(contador).getFormato_Imagen());
 
         }//Fin método
 
@@ -1430,7 +1430,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
     }//Fin método
 
-    public void Descarga(byte[] imagenes, String NombreImagen) {
+    public void Descarga(byte[] imagenes, String NombreImagen, String Formato) {
 
         String barra = File.separator;
         //Se establece la ruta desde la cuenta usuario del ordenador. Después, el escritorio, y por último, guarda en la carpeta imágenes.
@@ -1445,7 +1445,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         String valor = Integer.toString(contadorDescarga);
 
         //Se establece la ruta donde se guardará la imagen
-        File archivo2 = new File(ubicacion + NombreImagen + " (" + valor + ")" + ".jpg");
+        File archivo2 = new File(ubicacion + NombreImagen + " (" + valor + ")" + "." + Formato.toLowerCase());
 
         boolean respuesta = DescargaImagenRuta(archivo2, imagenes);
 
@@ -1455,7 +1455,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
 
         } else {
 
-            JOptionPane.showMessageDialog(null, "Fallo en la descarga. ", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Fallo en la descarga.", "Error", JOptionPane.ERROR_MESSAGE);
 
         }//Fin if
 

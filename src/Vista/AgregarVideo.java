@@ -43,6 +43,7 @@ public class AgregarVideo extends javax.swing.JFrame {
     String FechaSubido;
     boolean MostrarCategorias;
     String pkCategoria;
+    String FormatoVideo;
 
     public AgregarVideo() {
         initComponents();
@@ -62,6 +63,7 @@ public class AgregarVideo extends javax.swing.JFrame {
         MostrarCategorias = true;
 
         Agregar.setEnabled(false);
+        formatoVideo.setEnabled(false);
 
         ImagenInicial();
 
@@ -90,7 +92,7 @@ public class AgregarVideo extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         nombreVideo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        formatoImagen = new javax.swing.JComboBox<>();
+        formatoVideo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -131,7 +133,7 @@ public class AgregarVideo extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("Formato Video");
 
-        formatoImagen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------------------------------------", "MP4", "MOV" }));
+        formatoVideo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------------------------------------", "MP4", "MOV" }));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Duración");
@@ -338,7 +340,7 @@ public class AgregarVideo extends javax.swing.JFrame {
                             .addComponent(nombreVideo)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(CategoriaAgregarVideo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(formatoImagen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(formatoVideo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -409,7 +411,7 @@ public class AgregarVideo extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(formatoImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(formatoVideo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -439,6 +441,16 @@ public class AgregarVideo extends javax.swing.JFrame {
                 //El endsWith especifica si la cadena que compone el archivo imagen termina en mp4 o mov para ser verificada.
                 if (archivo.getName().endsWith("mp4") || archivo.getName().endsWith("mov")) {
 
+                    if (archivo.getName().endsWith("mp4")) {
+
+                        FormatoVideo = "MP4";
+
+                    } else if (archivo.getName().endsWith("mov")) {
+
+                        FormatoVideo = "MOV";
+
+                    }//Fin condición
+
                     JOptionPane.showMessageDialog(null, "Archivo de video seleccionado.");
 
                 } else {
@@ -457,7 +469,8 @@ public class AgregarVideo extends javax.swing.JFrame {
 
         //***************************************************************************************************************************************************************
         NombreVideo = nombreVideo.getText();
-        Formato = formatoImagen.getSelectedItem().toString();
+        //Formato = formatoImagen.getSelectedItem().toString();
+        Formato = FormatoVideo;
         boolean Correcto = true;
 
         //CONDICIONES PARA OBTENER EL TIEMPO EN FORMATO 00:00:00
@@ -553,7 +566,7 @@ public class AgregarVideo extends javax.swing.JFrame {
             }//Fin if
 
             nombreVideo.setText("");
-            formatoImagen.setSelectedItem("------------------------------------");
+            //formatoVideo.setSelectedItem("------------------------------------");
             duracionHoras.setText("00");
             duracionMinutos.setText("00");
             duracionSegundos.setText("00");
@@ -702,32 +715,47 @@ public class AgregarVideo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Video no seleccionado.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             Correcto = false;
 
-        } else if (NombreVideo.equals("")) {
+        }//Fin if
+
+        if (NombreVideo.equals("")) {
 
             JOptionPane.showMessageDialog(null, "Nombre del video faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             Correcto = false;
 
-        } else if (Formato.equals("------------------------------------")) {
+        }//Fin if
+
+//        if (Formato.equals("------------------------------------")) {
+//
+//            JOptionPane.showMessageDialog(null, "Formato del video faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+//            Correcto = false;
+//
+//        }//Fin if
+
+        if (Formato == null) {
 
             JOptionPane.showMessageDialog(null, "Formato del video faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             Correcto = false;
 
-        } else if (Duracion.equals("::")) {
+        }//Fin if
+
+        if (Duracion.equals("::")) {
 
             JOptionPane.showMessageDialog(null, "Duración del video faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             Correcto = false;
 
-        } else if (Descripcion.equals("")) {
+        }//Fin if
+
+        if (Descripcion.equals("")) {
 
             JOptionPane.showMessageDialog(null, "Descripción del video faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             Correcto = false;
 
-        } else if (Categoria.equals("------------------------------------")) {
+        }//Fin if
+
+        if (Categoria.equals("------------------------------------")) {
 
             JOptionPane.showMessageDialog(null, "Categoría del video faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             Correcto = false;
-
-        } else {
 
         }//Fin if
 
@@ -745,7 +773,7 @@ public class AgregarVideo extends javax.swing.JFrame {
     private javax.swing.JTextField duracionHoras;
     private javax.swing.JTextField duracionMinutos;
     private javax.swing.JTextField duracionSegundos;
-    private javax.swing.JComboBox<String> formatoImagen;
+    private javax.swing.JComboBox<String> formatoVideo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

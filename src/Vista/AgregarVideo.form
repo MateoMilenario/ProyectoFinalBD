@@ -43,7 +43,7 @@
                           <Component id="nombreVideo" max="32767" attributes="0"/>
                           <Component id="jPanel3" max="32767" attributes="0"/>
                           <Component id="CategoriaAgregarVideo" alignment="0" max="32767" attributes="0"/>
-                          <Component id="formatoImagen" alignment="0" max="32767" attributes="0"/>
+                          <Component id="formatoVideo" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -136,7 +136,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="formatoImagen" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="formatoVideo" min="-2" pref="31" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -192,7 +192,7 @@
         <Property name="text" type="java.lang.String" value="Formato Video"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="formatoImagen">
+    <Component class="javax.swing.JComboBox" name="formatoVideo">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">

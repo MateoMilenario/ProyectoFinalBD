@@ -44,6 +44,8 @@ public class AgregarImagen extends javax.swing.JFrame {
 
     String pkCategoria;
 
+    String FormatoImagen;
+
     public AgregarImagen() {
         initComponents();
         this.setLocationRelativeTo(this);
@@ -60,6 +62,7 @@ public class AgregarImagen extends javax.swing.JFrame {
         FechaSubido = null;
 
         Agregar.setEnabled(false);
+        formatoImagen.setEnabled(false);
 
     }
 
@@ -342,6 +345,16 @@ public class AgregarImagen extends javax.swing.JFrame {
                 //El endsWith especifica si la cadena que compone el archivo imagen termina en jpg o png para ser verificada.
                 if (archivo.getName().endsWith("jpg") || archivo.getName().endsWith("png")) {
 
+                    if (archivo.getName().endsWith("jpg")) {
+
+                        FormatoImagen = "JPG";
+
+                    } else if (archivo.getName().endsWith("png")) {
+
+                        FormatoImagen = "PNG";
+
+                    }//Fin condición
+
                     ImageIcon icon = new ImageIcon(archivo.toString());
 
                     Icon icono = new ImageIcon(icon.getImage().getScaledInstance(LabelImagenAgregar.getWidth(), LabelImagenAgregar.getHeight(), Image.SCALE_DEFAULT));
@@ -365,7 +378,8 @@ public class AgregarImagen extends javax.swing.JFrame {
 
         //***************************************************************************************************************************************************************
         NombreImagen = nombreImagen.getText();
-        Formato = formatoImagen.getSelectedItem().toString();
+        //Formato = formatoImagen.getSelectedItem().toString();
+        Formato = FormatoImagen;
         Resolucion = resolucionImagen.getText();
         Descripcion = descripcionImagen.getText();
         Categoria = CategoriaAgregarImagen.getSelectedItem().toString();
@@ -417,7 +431,7 @@ public class AgregarImagen extends javax.swing.JFrame {
 
             //**************************************************************************************************************
             nombreImagen.setText("");
-            formatoImagen.setSelectedItem("------------------------------------");
+            //formatoImagen.setSelectedItem("------------------------------------");
             resolucionImagen.setText("");
             CategoriaAgregarImagen.setSelectedItem("------------------------------------");
             descripcionImagen.setText("");
@@ -540,7 +554,14 @@ public class AgregarImagen extends javax.swing.JFrame {
 
         }//Fin if
 
-        if (Formato.equals("------------------------------------")) {
+//        if (Formato.equals("------------------------------------")) {
+//
+//            JOptionPane.showMessageDialog(null, "Formato de la imagen faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+//            t = false;
+//
+//        }//Fin if
+
+        if (Formato == null) {
 
             JOptionPane.showMessageDialog(null, "Formato de la imagen faltante.", "Advertencia", JOptionPane.ERROR_MESSAGE);
             t = false;

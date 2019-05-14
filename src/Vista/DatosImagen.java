@@ -674,7 +674,7 @@ public class DatosImagen extends javax.swing.JFrame {
 
     public void activarCampos() {
 
-        formatoImagen.setEnabled(true);
+        //formatoImagen.setEnabled(true);
         categorias.setEnabled(true);
         nombreImagen.setEnabled(true);
         resolucion.setEnabled(true);
@@ -686,7 +686,7 @@ public class DatosImagen extends javax.swing.JFrame {
     public void desactivarCampos() {
 
         formatoActual.setEnabled(false);
-        formatoImagen.setEnabled(false);
+        //formatoImagen.setEnabled(false);
         categorias.setEnabled(false);
         categoriaActual.setEnabled(false);
         nombreImagen.setEnabled(false);

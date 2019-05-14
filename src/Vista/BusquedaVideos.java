@@ -944,15 +944,15 @@ public class BusquedaVideos extends javax.swing.JFrame {
 
         if (Pclave.equals("") && categoriaSeleccionada.equals("Categorias")) {
 
-            Descarga(videosGuardados.get(contador).getVideo(), videosGuardados.get(contador).getNombreVideo());
+            Descarga(videosGuardados.get(contador).getVideo(), videosGuardados.get(contador).getNombreVideo(), videosGuardados.get(contador).getFormato_Video());
 
         } else if (!"".equals(Pclave)) {
 
-            Descarga(videosPalabraBuscar.get(contador).getVideo(), videosPalabraBuscar.get(contador).getNombreVideo());
+            Descarga(videosPalabraBuscar.get(contador).getVideo(), videosPalabraBuscar.get(contador).getNombreVideo(), videosPalabraBuscar.get(contador).getFormato_Video());
 
         } else if (!"Categorias".equals(categoriaSeleccionada)) {
 
-            Descarga(videosCategoriasBuscar.get(contador).getVideo(), videosCategoriasBuscar.get(contador).getNombreVideo());
+            Descarga(videosCategoriasBuscar.get(contador).getVideo(), videosCategoriasBuscar.get(contador).getNombreVideo(),  videosCategoriasBuscar.get(contador).getFormato_Video());
 
         }//Fin método
 
@@ -1475,7 +1475,7 @@ public class BusquedaVideos extends javax.swing.JFrame {
 
     }//Fin método
 
-    public void Descarga(byte[] videos, String NombreVideo) {
+    public void Descarga(byte[] videos, String NombreVideo, String Formato) {
 
         String barra = File.separator;
         //Se establece la ruta desde la cuenta usuario del ordenador. Después guarda en la carpeta Videos.
@@ -1489,7 +1489,7 @@ public class BusquedaVideos extends javax.swing.JFrame {
         String valor = Integer.toString(contadorDescarga);
 
         //Se establece la ruta donde se guardará el video
-        File archivo2 = new File(ubicacion + NombreVideo + " (" + valor + ")" + ".mp4");
+        File archivo2 = new File(ubicacion + NombreVideo + " (" + valor + ")" + "." + Formato.toLowerCase());
 
         boolean respuesta = DescargaVideoRuta(archivo2, videos);
 
@@ -1499,7 +1499,7 @@ public class BusquedaVideos extends javax.swing.JFrame {
 
         } else {
 
-            JOptionPane.showMessageDialog(null, "Fallo en la descarga. ", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Fallo en la descarga.", "Error", JOptionPane.ERROR_MESSAGE);
 
         }//Fin if
 
