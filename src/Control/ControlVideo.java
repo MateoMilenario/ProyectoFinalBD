@@ -25,7 +25,7 @@ public class ControlVideo {
         //String insertarSQL = "INSERT INTO videos(FechaSubidaV, NombreVideo, rutaVideo, Formato_Video, DuracionVideo, DescripcionVideo, NombreUsuario2, CodigoCategoria2, Video)"
         // + "values(?,?,?,?,?,?,?,?,?)";
         
-        String insertarSQL = "call InsertarVideosCuenta(?,?,?,?,?,?,?,?,?)";
+        String insertarSQL = "call InsertarVideosCuenta(?,?,?,?,?,?,?,?)";
 
         t = video.insertarVideos(video, insertarSQL, NombreUsuario, Pkcategoria);
 

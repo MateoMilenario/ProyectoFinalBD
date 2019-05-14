@@ -102,4 +102,19 @@ public class ControlComentarioAudio {
         return t;
 
     }//Fin método
+    
+    public boolean EliminarComentarioAudiosCuenta(String idComentario) {
+
+        ComentarioAudio Caudio = new ComentarioAudio();
+        
+        boolean t = false;
+
+        String EliminarSQL = "DELETE FROM comentarios_audios WHERE CodigoComentarioA = '" + idComentario + "'";
+        
+        t = Caudio.BorrarComentario(EliminarSQL);
+
+        return t;
+
+    }//Fin método
+    
 }

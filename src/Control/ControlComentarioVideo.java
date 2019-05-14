@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class ControlComentarioVideo {
 
-    public boolean InsertarComentario(String PkVideo, String nombreUsuarioBusquedadV ,ComentarioVideo CV) {
+    public boolean InsertarComentario(String PkVideo, String nombreUsuarioBusquedadV, ComentarioVideo CV) {
 
         ComentarioVideo Cvideo = new ComentarioVideo();
 
@@ -92,11 +92,25 @@ public class ControlComentarioVideo {
     public boolean EliminarComentario(String idComentario, String nombreUsuarioBusquedadV) {
 
         ComentarioVideo Cvideo = new ComentarioVideo();
-        
+
         boolean t = false;
 
         String EliminarSQL = "DELETE FROM comentarios_videos WHERE CodigoComentarioV = '" + idComentario + "' AND NombreUsuario5 = '" + nombreUsuarioBusquedadV + "'";
-        
+
+        t = Cvideo.BorrarComentario(EliminarSQL);
+
+        return t;
+
+    }//Fin método
+
+    public boolean EliminarComentariosVideoCuenta(String idComentario) {
+
+        ComentarioVideo Cvideo = new ComentarioVideo();
+
+        boolean t = false;
+
+        String EliminarSQL = "DELETE FROM comentarios_videos WHERE CodigoComentarioV = '" + idComentario + "'";
+
         t = Cvideo.BorrarComentario(EliminarSQL);
 
         return t;

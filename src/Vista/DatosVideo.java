@@ -6,9 +6,11 @@
 package Vista;
 
 import Control.ControlCategoria;
+import Control.ControlComentarioVideo;
 import Control.ControlImagen;
 import Control.ControlVideo;
 import Modelo.Categoria;
+import Modelo.ComentarioVideo;
 import Modelo.Video;
 import java.awt.Image;
 import java.util.LinkedList;
@@ -24,6 +26,7 @@ public class DatosVideo extends javax.swing.JFrame {
 
     LinkedList<Video> videosCuenta;
     LinkedList<Categoria> categoriasVideos;
+    LinkedList<ComentarioVideo> comentariosVideos;
     Principal GUIprincipal3;
 
     int contador;
@@ -46,6 +49,7 @@ public class DatosVideo extends javax.swing.JFrame {
 
         videosCuenta = new LinkedList<>();
         categoriasVideos = new LinkedList<>();
+        comentariosVideos = new LinkedList<>();
 
         TraerCategorias();
 
@@ -702,8 +706,11 @@ public class DatosVideo extends javax.swing.JFrame {
         if (respuesta == 0) {
 
             ControlVideo CI3 = new ControlVideo();
+            ControlComentarioVideo CcomentarioV = new ControlComentarioVideo();
 
             String IdContenido = videosCuenta.get(contador).getIdContenidoV();
+            comentariosVideos = CcomentarioV.TraerComentarios(IdContenido);
+            EliminarComentariosVideos();
 
             boolean t = CI3.EliminarVideo(IdContenido);
 
@@ -721,6 +728,12 @@ public class DatosVideo extends javax.swing.JFrame {
                 duracionSegundos.setText("");
                 descripcionVideo.setText("");
                 nombreVideo.setText("");
+                
+                if(comentariosVideos.isEmpty() == false){
+                    
+                    comentariosVideos.clear();
+                    
+                }//Fin condición para limpiar el LinkedList
 
             } else {
 
@@ -903,6 +916,22 @@ public class DatosVideo extends javax.swing.JFrame {
         duracionSegundos.setEnabled(false);
         descripcionVideo.setEnabled(false);
         guardarV.setEnabled(false);
+
+    }//Fin método
+
+    public void EliminarComentariosVideos() {
+
+        ControlComentarioVideo cComentarioVideo = new ControlComentarioVideo();
+
+        if (comentariosVideos.isEmpty() == false) {
+
+            for (int i = 0; i < comentariosVideos.size(); i++) {
+
+                cComentarioVideo.EliminarComentariosVideoCuenta(comentariosVideos.get(i).getIdComentario());
+
+            }//Fin for
+
+        }//Fin condición
 
     }//Fin método
 

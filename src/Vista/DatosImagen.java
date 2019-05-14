@@ -6,8 +6,10 @@
 package Vista;
 
 import Control.ControlCategoria;
+import Control.ControlComentarioImagen;
 import Control.ControlImagen;
 import Modelo.Categoria;
+import Modelo.ComentarioImagen;
 import Modelo.Imagen;
 import java.awt.Image;
 import java.util.LinkedList;
@@ -23,6 +25,7 @@ public class DatosImagen extends javax.swing.JFrame {
 
     LinkedList<Imagen> imagenesCuenta;
     LinkedList<Categoria> categoriasImagenes;
+    LinkedList<ComentarioImagen> comentariosImagenes;
     Principal GUIprincipal3;
 
     int contador;
@@ -45,6 +48,7 @@ public class DatosImagen extends javax.swing.JFrame {
 
         imagenesCuenta = new LinkedList<>();
         categoriasImagenes = new LinkedList<>();
+        comentariosImagenes = new LinkedList<>();
 
         TraerCategorias();
 
@@ -513,7 +517,13 @@ public class DatosImagen extends javax.swing.JFrame {
 
             ControlImagen CI3 = new ControlImagen();
 
+            ControlComentarioImagen CcImagen = new ControlComentarioImagen();
+
             String IdContenido = imagenesCuenta.get(contador).getIdImagen();
+
+            comentariosImagenes = CcImagen.TraerComentarios(IdContenido);
+
+            EliminarComentariosVideos();
 
             boolean t = CI3.EliminarImagen(IdContenido);
 
@@ -529,6 +539,12 @@ public class DatosImagen extends javax.swing.JFrame {
                 resolucion.setText("");
                 descripcionImagen.setText("");
                 nombreImagen.setText("");
+
+                if (comentariosImagenes.isEmpty() == false) {
+
+                    comentariosImagenes.clear();
+
+                }//Fin condición para limpiar el linkedList
 
             } else {
 
@@ -677,6 +693,22 @@ public class DatosImagen extends javax.swing.JFrame {
         resolucion.setEnabled(false);
         descripcionImagen.setEnabled(false);
         guardarI.setEnabled(false);
+
+    }//Fin método
+
+    public void EliminarComentariosVideos() {
+
+        ControlComentarioImagen cComentarioImagen = new ControlComentarioImagen();
+
+        if (comentariosImagenes.isEmpty() == false) {
+
+            for (int i = 0; i < comentariosImagenes.size(); i++) {
+
+                cComentarioImagen.EliminarComentariosImagenesCuenta(comentariosImagenes.get(i).getIdComentario());
+
+            }//Fin for
+
+        }//Fin condición
 
     }//Fin método
 

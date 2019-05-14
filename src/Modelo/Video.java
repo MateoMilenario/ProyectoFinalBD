@@ -259,13 +259,13 @@ public class Video {
 
                // ps.setString(3, video.getRutaVideo());
 
-                ps.setString(4, video.getFormato_Video());
-                ps.setString(5, video.getDuracionVideo());
-                ps.setString(6, video.getDescripcionVideo());
-                ps.setString(7, NombreUsuario);
-                ps.setString(8, pkCategoria);
+                ps.setString(3, video.getFormato_Video());
+                ps.setString(4, video.getDuracionVideo());
+                ps.setString(5, video.getDescripcionVideo());
+                ps.setString(6, NombreUsuario);
+                ps.setString(7, pkCategoria);
 
-                ps.setBinaryStream(9, fis, (int) file.length());
+                ps.setBinaryStream(8, fis, (int) file.length());
 
                 ps.executeUpdate();
 

@@ -7,10 +7,12 @@ package Vista;
 
 import Control.ControlAudio;
 import Control.ControlCategoria;
+import Control.ControlComentarioAudio;
 import Control.ControlImagen;
 import Control.ControlVideo;
 import Modelo.Audio;
 import Modelo.Categoria;
+import Modelo.ComentarioAudio;
 import Modelo.Video;
 import java.awt.Image;
 import java.util.LinkedList;
@@ -26,6 +28,7 @@ public class DatosAudio extends javax.swing.JFrame {
 
     LinkedList<Audio> audiosCuenta;
     LinkedList<Categoria> categoriasAudios;
+    LinkedList<ComentarioAudio> comentariosAudio;
     Principal GUIprincipal4;
 
     int contador;
@@ -49,6 +52,7 @@ public class DatosAudio extends javax.swing.JFrame {
 
         audiosCuenta = new LinkedList<>();
         categoriasAudios = new LinkedList<>();
+        comentariosAudio = new LinkedList<>();
 
         FechaSubidaA = null;
         FormatoActualA = null;
@@ -680,13 +684,18 @@ public class DatosAudio extends javax.swing.JFrame {
 
     private void eliminarAudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarAudioActionPerformed
 
-        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el audio?");
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro/a que desea eliminar el audio?");
 
         if (respuesta == 0) {
 
             ControlAudio CA3 = new ControlAudio();
+            ControlComentarioAudio cCAudio = new ControlComentarioAudio();
 
             String IdContenido = audiosCuenta.get(contador).getIdContenidoA();
+            
+            comentariosAudio = cCAudio.TraerComentarios(IdContenido);
+            
+            EliminarComentariosAudio();
 
             boolean t = CA3.EliminarAudio(IdContenido);
 
@@ -705,6 +714,12 @@ public class DatosAudio extends javax.swing.JFrame {
                 descripcionAudio.setText("");
                 nombreAudio.setText("");
                 TamanoActualAudio.setText("");
+                
+                if(comentariosAudio.isEmpty() == false){
+                    
+                    comentariosAudio.clear();
+                    
+                }//Fin condición para limpiar el LinkedList
 
             } else {
 
@@ -916,6 +931,22 @@ public class DatosAudio extends javax.swing.JFrame {
         descripcionAudio.setEnabled(false);
         guardarAudio.setEnabled(false);
 
+    }//Fin método
+    
+    public void EliminarComentariosAudio(){
+        
+        ControlComentarioAudio cCAudio = new ControlComentarioAudio();
+        
+        if(comentariosAudio.isEmpty() == false){
+            
+            for (int i = 0; i < comentariosAudio.size(); i++) {
+            
+                cCAudio.EliminarComentarioAudiosCuenta(comentariosAudio.get(i).getIdComentario());
+                
+            }//Fin for
+            
+        }//Fin condición
+        
     }//Fin método
 
 

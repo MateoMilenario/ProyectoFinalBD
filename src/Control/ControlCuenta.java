@@ -182,7 +182,8 @@ public class ControlCuenta {
         CuentaUsuario cuenta = new CuentaUsuario();
         ResultSet rset = null;
 
-        String LeerSQL = "call CuentasImagenes_LeftJoin()";
+        //String LeerSQL = "call CuentasImagenes_LeftJoin()";
+        String LeerSQL = "select * from cuentasimagenes_leftjoin_view";
 
         rset = cuenta.TraerCuenta(LeerSQL);
 

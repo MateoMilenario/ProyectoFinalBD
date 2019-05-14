@@ -103,4 +103,18 @@ public class ControlComentarioImagen {
         return t;
 
     }//Fin método
+    
+    public boolean EliminarComentariosImagenesCuenta(String idComentario) {
+
+        ComentarioImagen Cimagen = new ComentarioImagen();
+
+        boolean t = false;
+
+        String EliminarSQL = "DELETE FROM comentarios_imagenes WHERE CodigoComentarioI = '" + idComentario + "'";
+
+        t = Cimagen.BorrarComentario(EliminarSQL);
+
+        return t;
+
+    }//Fin método
 }
