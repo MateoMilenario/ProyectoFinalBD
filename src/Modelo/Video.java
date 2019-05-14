@@ -257,7 +257,7 @@ public class Video {
                 ps.setString(1, video.getFechaSubidaV());
                 ps.setString(2, video.getNombreVideo());
 
-                ps.setString(3, video.getRutaVideo());
+               // ps.setString(3, video.getRutaVideo());
 
                 ps.setString(4, video.getFormato_Video());
                 ps.setString(5, video.getDuracionVideo());
