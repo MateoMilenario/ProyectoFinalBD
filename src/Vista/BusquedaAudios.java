@@ -160,7 +160,6 @@ public class BusquedaAudios extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         TamanoA = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabelFotoP = new javax.swing.JLabel();
         jLabelNombreU = new javax.swing.JLabel();
         Descargar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -181,6 +180,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
         jLabelFotoC = new javax.swing.JLabel();
         NUsuario = new javax.swing.JLabel();
         fPublicacion = new javax.swing.JLabel();
+        jLabelFotoSubida = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -355,8 +355,6 @@ public class BusquedaAudios extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabelFotoP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         jLabelNombreU.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabelNombreU.setText("Nombre Usuario");
 
@@ -497,6 +495,8 @@ public class BusquedaAudios extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabelFotoSubida.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -542,7 +542,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Descargar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabelFotoP, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelFotoSubida, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelNombreU)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -586,7 +586,9 @@ public class BusquedaAudios extends javax.swing.JFrame {
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabelFotoP, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabelFotoSubida, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Descargar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
@@ -638,6 +640,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
         }//Fin if
 
         fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
+        System.out.println(fechaPublicacionC);
         String descripcionComentario = comentario.getText();
 
         if (descripcionComentario.equals("")) {
@@ -1012,13 +1015,24 @@ public class BusquedaAudios extends javax.swing.JFrame {
             String Mes = Integer.toString(c1.get(Calendar.MONTH) + 1);
             String Año = Integer.toString(c1.get(Calendar.YEAR));
 
-            fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia;
+            //Se obtiene la hora, los minutos y los segundos en el momento en que se inserta el comentario
+            String Hora = Integer.toString(c1.get(Calendar.HOUR));
+            String Minutos = Integer.toString(c1.get(Calendar.MINUTE));
+            String Segundos = Integer.toString(c1.get(Calendar.SECOND));
+
+            if (Segundos.length() == 1) {
+
+                Segundos = "0" + Segundos;
+
+            }//Fin if
+
+            fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
 
             String actualizarComentario = TextComentario.getText();
 
             //Se actualizar el comentario también en el linkedList
             comentariosAudios.get(contadorComentario).setDescripcionComentario(actualizarComentario);
-            comentariosAudios.get(contadorComentario).setFechaPublicacion(fechaPublicacionC + " 00:00:00");
+            comentariosAudios.get(contadorComentario).setFechaPublicacion(fechaPublicacionC);
 
             ComentarioAudio Caudio = new ComentarioAudio(fechaPublicacionC, actualizarComentario);
 
@@ -1130,13 +1144,13 @@ public class BusquedaAudios extends javax.swing.JFrame {
         jLabelNombreU.setText(audiosGuardados.get(contador).getNombreUsuarioPK());
 
         ImageIcon icon = new ImageIcon(BusquedaAudios.class.getResource("/Imagenes/audio.png"));
-        ImageIcon icon3 = new ImageIcon(audiosGuardados.get(contador).getImagenUsuario());
+        ImageIcon icon2 = new ImageIcon(audiosGuardados.get(contador).getImagenUsuario());
 
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelAudio.getWidth(), jLabelAudio.getHeight(), Image.SCALE_DEFAULT));
-        Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(jLabelFotoP.getWidth(), jLabelFotoP.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFotoSubida.getWidth(), jLabelFotoSubida.getHeight(), Image.SCALE_DEFAULT));
 
         jLabelAudio.setIcon(icono);
-        jLabelFotoP.setIcon(icono3);
+        jLabelFotoSubida.setIcon(icono2);
 
     }//Fin método
 
@@ -1165,11 +1179,11 @@ public class BusquedaAudios extends javax.swing.JFrame {
 
         //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelAudio.getWidth(), jLabelAudio.getHeight(), Image.SCALE_DEFAULT));
-        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFotoP.getWidth(), jLabelFotoP.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFotoSubida.getWidth(), jLabelFotoSubida.getHeight(), Image.SCALE_DEFAULT));
 
         //Se coloca la imagen con el tamaño que tiene en el label
         jLabelAudio.setIcon(icono);
-        jLabelFotoP.setIcon(icono2);
+        jLabelFotoSubida.setIcon(icono2);
 
     }//Fin método
 
@@ -1198,11 +1212,11 @@ public class BusquedaAudios extends javax.swing.JFrame {
 
         //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelAudio.getWidth(), jLabelAudio.getHeight(), Image.SCALE_DEFAULT));
-        Icon icono2 = new ImageIcon(iconUsuario.getImage().getScaledInstance(jLabelFotoP.getWidth(), jLabelFotoP.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono2 = new ImageIcon(iconUsuario.getImage().getScaledInstance(jLabelFotoSubida.getWidth(), jLabelFotoSubida.getHeight(), Image.SCALE_DEFAULT));
 
         //Se coloca la imagen con el tamaño que tiene en el label
         jLabelAudio.setIcon(icono);
-        jLabelFotoP.setIcon(icono2);
+        jLabelFotoSubida.setIcon(icono2);
 
     }//Fin método
 
@@ -1533,7 +1547,7 @@ public class BusquedaAudios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelAudio;
     private javax.swing.JLabel jLabelContador;
     private javax.swing.JLabel jLabelFotoC;
-    private javax.swing.JLabel jLabelFotoP;
+    private javax.swing.JLabel jLabelFotoSubida;
     private javax.swing.JLabel jLabelNombreU;
     private javax.swing.JLabel jLabelPerfilCuenta;
     private javax.swing.JPanel jPanel1;

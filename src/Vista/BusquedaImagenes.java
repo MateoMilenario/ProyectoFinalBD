@@ -1109,7 +1109,7 @@ public class BusquedaImagenes extends javax.swing.JFrame {
         //Después de que la imagen está convertida en icono entonces se procede a escalar el icono con el tamaño que conserva el label
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_DEFAULT));
         Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(jLabelFoto.getWidth(), jLabelFoto.getHeight(), Image.SCALE_DEFAULT));
-
+        
         //Se coloca la imagen con el tamaño que tiene en el label
         jLabelImagen.setIcon(icono);
         jLabelFoto.setIcon(icono2);
