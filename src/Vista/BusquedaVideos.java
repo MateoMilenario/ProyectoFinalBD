@@ -1023,12 +1023,15 @@ public class BusquedaVideos extends javax.swing.JFrame {
             }//Fin if
 
             fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
+            String fechaActualizacion = Año + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
 
             String actualizarComentario = TextComentario.getText();
 
             //Se actualizar el comentario también en el linkedList
             comentariosVideos.get(contadorComentario).setDescripcionComentario(actualizarComentario);
             comentariosVideos.get(contadorComentario).setFechaPublicacion(fechaPublicacionC);
+            
+            fPublicacion.setText(fechaActualizacion);
 
             ComentarioVideo Cvideo = new ComentarioVideo(fechaPublicacionC, actualizarComentario);
 

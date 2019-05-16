@@ -999,12 +999,15 @@ public class BusquedaImagenes extends javax.swing.JFrame {
             }//Fin if
 
             fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
+            String fechaActualizacion = Año + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
 
             String actualizarComentario = TextComentario.getText();
 
             //Se actualizar el comentario también en el linkedList
             comentariosImagenes.get(contadorComentario).setDescrpcionImagen(actualizarComentario);
             comentariosImagenes.get(contadorComentario).setFechaPublicacion(fechaPublicacionC);
+            
+            fPublicacion.setText(fechaActualizacion);
 
             ComentarioImagen Cimagen = new ComentarioImagen(fechaPublicacionC, actualizarComentario);
 

@@ -1027,12 +1027,15 @@ public class BusquedaAudios extends javax.swing.JFrame {
             }//Fin if
 
             fechaPublicacionC = Año.substring(2, 4) + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
+            String fechaActualizacion = Año + "-0" + Mes + "-" + Dia + " " + Hora + ":" + Minutos + ":" + Segundos;
 
             String actualizarComentario = TextComentario.getText();
 
             //Se actualizar el comentario también en el linkedList
             comentariosAudios.get(contadorComentario).setDescripcionComentario(actualizarComentario);
             comentariosAudios.get(contadorComentario).setFechaPublicacion(fechaPublicacionC);
+            
+            fPublicacion.setText(fechaActualizacion);
 
             ComentarioAudio Caudio = new ComentarioAudio(fechaPublicacionC, actualizarComentario);
 
